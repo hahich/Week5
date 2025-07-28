@@ -1,0 +1,393 @@
+{% assign section_color_scheme = section.settings.color_scheme | default: settings.color_scheme %}
+{% assign section_width = section.settings.section_width | default: settings.section_width %}
+{% assign heading = section.settings.heading %}
+{% assign description = section.settings.description %}
+{% assign header_size = section.settings.header_size %}
+{% assign alignment = section.settings.alignment %}
+{% assign before_image = section.settings.before_image %}
+{% assign after_image = section.settings.after_image %}
+{% assign width = section.settings.width %}
+{% assign position = section.settings.position %}
+{% assign show_text = section.settings.show_text %}
+{% assign image_ratio = section.settings.image_ratio %}
+{% assign custom_ratio = section.settings.custom_ratio %}
+{% assign padding_top = section.settings.padding_top %}
+{% assign padding_bottom = section.settings.padding_bottom %}
+{% assign remove_space = section.settings.remove_space %}
+
+{% capture section_classes %}
+  image-comparison-section
+  section-width-{{ section_width }}
+  color-{{ section_color_scheme }}
+  {% if remove_space %}no-section-space{% endif %}
+{% endcapture %}
+<div class="{{ section_classes | strip_newlines }}">
+  <div class="image-comparison-top" style="text-align: {{ alignment }};">
+      {% if heading != blank %}
+        <div class="image-comparison-heading heading-{{ header_size }}">{{ heading }}</div>
+      {% endif %}
+      {% if description != blank %}
+        <div class="image-comparison-description">{{ description }}</div>
+      {% endif %}
+    </div>
+  <div class="image-comparison-flex" style="width: {{ width }}%;">
+    <div class="image-comparison-left">
+      <div class="image-comparison-slider" id="image-comparison-{{ section.id }}"
+        style="
+          {% if image_ratio == 'square' %}aspect-ratio: 1/1;{% endif %}
+          {% if image_ratio == 'portrait' %}aspect-ratio: 3/4;{% endif %}
+          {% if image_ratio == 'landscape' %}aspect-ratio: 4/3;{% endif %}
+          {% if image_ratio == 'custom' and custom_ratio != blank %}aspect-ratio: {{ custom_ratio | replace: ':', '/' }};{% endif %}
+        "
+      >
+        <img
+          class="before-image"
+          src="{{ before_image | image_url }}"
+          alt="Before"
+          loading="lazy"
+          width="800"
+          height="600"
+          style="z-index:1;"
+        >
+        <img
+          class="after-image"
+          src="{{ after_image | image_url }}"
+          alt="After"
+          loading="lazy"
+          width="800"
+          height="600"
+          style="z-index:2; position:absolute; top:0; left:0; height:100%; width:100%;"
+        >
+        {% if show_text %}
+          <span class="image-comparison-label before">BEFORE</span>
+          <span class="image-comparison-label after">AFTER</span>
+        {% endif %}
+        <div class="slider-bar">
+          <button class="slider-bar-button__pull" type="button">
+            <svg width="10" height="24" viewBox="0 0 10 24" fill="none">
+              <rect width="2" height="24" rx="1" fill="currentColor"></rect>
+              <rect x="4" width="2" height="24" rx="1" fill="currentColor"></rect>
+              <rect x="8" width="2" height="24" rx="1" fill="currentColor"></rect>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<style>
+  .image-comparison-section {
+    padding-top: {{ padding_top | default: 32 }}px;
+    padding-bottom: {{ padding_bottom | default: 32 }}px;
+  }
+  .image-comparison-flex {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    margin: 0 auto;
+    width: 100%;
+    min-height: 400px;
+  }
+  .image-comparison-left {
+    flex: 1 1 50%;
+    min-width: 300px;
+    background: #f3f3f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .image-comparison-slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .image-comparison-slider .before-image,
+  .image-comparison-slider .after-image {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .image-comparison-slider .after-image {
+    width: 50%;
+    overflow: hidden;
+    z-index: 2;
+    clip-path: inset(0 50% 0 0);
+  }
+  .image-comparison-slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .image-comparison-slider .slider-bar {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 3px;
+    background: #fff;
+    box-shadow: 0 0 8px rgba(0,0,0,0.12);
+    z-index: 10;
+    cursor: ew-resize;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .slider-bar-button__pull {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 48px;
+    border: none;
+    border-radius: 30px;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    border: 1.5px solid #eee;
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: auto;
+    padding: 0;
+  }
+  .image-comparison-label {
+    position: absolute;
+    background: #fff;
+    color: #222;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 999px;
+    padding: 8px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    z-index: 20;
+    letter-spacing: 1px;
+    top: 32px;
+  }
+  .image-comparison-label.before {
+    left: 32px;
+  }
+  .image-comparison-label.after {
+    right: 32px;
+    bottom: 32px;
+    top: auto;
+  }
+  @media (max-width: 900px) {
+    .image-comparison-left, .image-comparison-top { min-width: 0; flex: 1 1 100%; }
+    .image-comparison-label.before { left: 16px; top: 16px; }
+    .image-comparison-label.after { right: 16px; bottom: 16px; }
+  }
+  .image-comparison-top {
+    flex: 1 1 50%;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px 32px;
+    background: #fff;
+  }
+  .image-comparison-heading {
+    font-size: 3rem;
+    font-weight: 700;
+  }
+  .image-comparison-description {
+    font-size: 1.5rem;
+    color: #444;
+  }
+  .image-comparison-btn {
+    display: inline-block;
+    background: #111;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 999px;
+    padding: 16px 40px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+  .image-comparison-btn:hover {
+    background: #222;
+  }
+</style>
+
+<script>
+  (function () {
+    var slider = document.getElementById('image-comparison-{{ section.id }}');
+    if (!slider) return;
+    var bar = slider.querySelector('.slider-bar');
+    var button = slider.querySelector('.slider-bar-button__pull');
+    var beforeImg = slider.querySelector('.before-image');
+    var afterImg = slider.querySelector('.after-image');
+    var dragging = false;
+    var container = slider;
+
+    function setPosition(percent) {
+      percent = Math.max(0, Math.min(100, percent));
+      bar.style.left = percent + '%';
+      button.style.left = '50%';
+      button.style.top = '50%';
+      button.style.transform = 'translate(-50%, -50%)';
+      afterImg.style.clipPath = 'inset(0 0 0 ' + percent + '%)';
+    }
+
+    function getPercent(x) {
+      var rect = container.getBoundingClientRect();
+      return ((x - rect.left) / rect.width) * 100;
+    }
+
+    button.addEventListener('mousedown', function (e) {
+      dragging = true;
+      document.body.style.userSelect = 'none';
+    });
+    window.addEventListener('mousemove', function (e) {
+      if (!dragging) return;
+      setPosition(getPercent(e.clientX));
+    });
+    window.addEventListener('mouseup', function () {
+      dragging = false;
+      document.body.style.userSelect = '';
+    });
+    // Touch support
+    button.addEventListener('touchstart', function (e) {
+      dragging = true;
+      document.body.style.userSelect = 'none';
+    });
+    window.addEventListener('touchmove', function (e) {
+      if (!dragging) return;
+      setPosition(getPercent(e.touches[0].clientX));
+    });
+    window.addEventListener('touchend', function () {
+      dragging = false;
+      document.body.style.userSelect = '';
+    });
+    // Init
+    setPosition(50);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Image Comparison",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "fluid", "label": "Fluid container" },
+        { "value": "stretch", "label": "Stretch width" },
+        { "value": "full", "label": "Full width" }
+      ],
+      "default": "default"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme" },
+    { "type": "text", "id": "heading", "label": "Heading" },
+    { "type": "richtext", "id": "description", "label": "Description" },
+    {
+      "type": "select",
+      "id": "header_size",
+      "label": "Header size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    { "type": "image_picker", "id": "before_image", "label": "Before image" },
+    { "type": "image_picker", "id": "after_image", "label": "After image" },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "options": [
+        { "value": "50", "label": "50%" },
+        { "value": "66", "label": "66%" },
+        { "value": "75", "label": "75%" },
+        { "value": "100", "label": "100%" }
+      ],
+      "default": "100"
+    },
+    {
+      "type": "select",
+      "id": "position",
+      "label": "Position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "checkbox", "id": "show_text", "label": "Show after before text", "default": true },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "adapt", "label": "Adapt to image" },
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "portrait", "label": "Portrait (3:4)" },
+        { "value": "landscape", "label": "Landscape (4:3)" },
+        { "value": "custom", "label": "Custom" }
+      ],
+      "default": "adapt"
+    },
+    {
+      "type": "text",
+      "id": "custom_ratio",
+      "label": "Custom ratio (e.g. 16:9)",
+      "default": "16:9",
+      "info": "Only used if Image ratio is Custom. Please select 'Custom' above to use this value."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Section padding top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Section padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 32,
+      "unit": "px"
+    },
+    { "type": "checkbox", "id": "remove_space", "label": "Remove default space between sections", "default": false }
+  ],
+  "presets": [{ "name": "Image Comparison" }]
+}
+{% endschema %}
