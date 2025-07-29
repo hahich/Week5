@@ -1,14 +1,34 @@
+{% assign section_color_scheme = section.settings.color_scheme | default: settings.color_scheme %}
+{% assign page_width = section.settings.page_width %}
+{% if page_width == blank or page_width == 'default' %}
+  {% assign page_width = settings.page_width | default: 'default' %}
+{% endif %}
+
+{% comment %} Calculate section width based on settings {% endcomment %}
+{% assign calculated_width = '800px' %}
+{% if page_width == 'fluid' %}
+  {% assign calculated_width = settings.page_width | default: '1200px' | append: 'px' %}
+{% elsif page_width == 'stretch' %}
+  {% assign stretch_width = settings.page_width | default: '1200px' | append: 'px' %}
+  {% assign calculated_width = stretch_width | minus: 40 | append: 'px' %}
+{% elsif page_width == 'full' %}
+  {% assign calculated_width = '100vw' %}
+{% endif %}
+
 <div
   class="
     product-testimonials-section
-    section-width-{{ section.settings.section_width }}
+    page_width-{{ page_width }}
     {% if section.settings.remove_default_space %}no-default-space{% endif %}
-    {% if section.settings.color_scheme != blank %}color-{{ section.settings.color_scheme }}{% endif %}
+    color-{{ section_color_scheme }}
   "
-  style="padding-top:{{ section.settings.padding_top }}px; padding-bottom:{{ section.settings.padding_bottom }}px;"
+  style="padding-top:{{ section.settings.padding_top }}px; padding-bottom:{{ section.settings.padding_bottom }}px; max-width: {{ calculated_width }}; margin: 0 auto;"
 >
   {% if section.settings.heading != blank %}
-    <h2 class="testimonial-heading heading-size-{{ section.settings.header_size }} align-{{ section.settings.alignment }}">
+    <h2
+      class="testimonial-heading heading-size-{{ section.settings.header_size }} align-{{ section.settings.alignment }}"
+      style="font-weight: 600;"
+    >
       {{ section.settings.heading }}
     </h2>
   {% endif %}
@@ -98,6 +118,7 @@
                     </div>
                     <div class="testimonial-product-price">{{ product.price | money }}</div>
                   </div>
+                </a>
               {% else %}
                 <div class="testimonial-product-image testimonial-image-placeholder"></div>
                 <div class="testimonial-product-info">
@@ -118,7 +139,7 @@
       <div class="swiper-button-next"></div>
     {% endif %}
     {% if section.settings.pagination != 'disable' %}
-      <div class="swiper-pagination"></div>
+      <div class="swiper-pagination" style="position: absolute; left: 0; right: 0; bottom: 0; top: auto; width: 100%;"></div>
     {% endif %}
   </div>
 
@@ -140,21 +161,23 @@
         var infinite = el.getAttribute('data-infinite') === 'true';
         var revealNext = el.getAttribute('data-reveal-next-slide') === 'true';
 
+        var slidesCount = el.querySelectorAll('.swiper-wrapper .swiper-slide').length;
+        if (infinite && slidesCount <= itemsPerRow) {
+          infinite = false;
+        }
+
         el.style.setProperty('--items-per-row', itemsPerRow);
         el.style.setProperty('--mobile-items-per-row', mobileItemsPerRow);
         el.style.setProperty('--column-gap', gap + 'px');
 
         if (typeof Swiper === 'undefined') {
-          console.warn(
-            'SwiperJS library is required for the testimonials carousel. Please include SwiperJS in your theme assets.'
-          );
           return;
         }
-
         var swiper = new Swiper(el, {
           slidesPerView: itemsPerRow,
           spaceBetween: gap,
           loop: infinite,
+          loopAdditionalSlides: itemsPerRow,
           navigation: showNextBack
             ? {
                 nextEl: el.querySelector('.swiper-button-next'),
@@ -176,8 +199,8 @@
               }
             : false,
           breakpoints: {
-            0: { slidesPerView: mobileItemsPerRow },
-            769: { slidesPerView: itemsPerRow },
+            0: { slidesPerView: mobileItemsPerRow, slidesPerGroup: 1, loopAdditionalSlides: mobileItemsPerRow },
+            769: { slidesPerView: itemsPerRow, slidesPerGroup: 1, loopAdditionalSlides: itemsPerRow },
           },
           centeredSlides: revealNext,
           slidesPerGroup: 1,
@@ -219,18 +242,14 @@
 <style>
   .product-testimonials-section {
     margin: 0 auto;
-    padding: 0 20px;
   }
-  .section-width-default {
+  .page_width-default {
     max-width: 800px;
   }
-  .section-width-fluid {
-    max-width: 1410px;
+  .page_width-stretch {
+    padding: 0 20px;
   }
-  .section-width-stretch {
-    width: calc(100% - 40px);
-  }
-  .section-width-full {
+  .page_width-full {
     width: 100vw;
   }
   .no-default-space {
@@ -255,9 +274,8 @@
   .heading-size-large {
     font-size: 2.5rem;
   }
-
   .testimonial-carousel {
-    display: grid;
+    display: block;
     grid-template-columns: repeat(var(--items-per-row, 2), 1fr);
     gap: var(--column-gap, 24px);
   }
@@ -266,7 +284,6 @@
       grid-template-columns: repeat(var(--mobile-items-per-row, 1), 1fr);
     }
   }
-
   .testimonial-item {
     background: var(--color-background, #fff);
     border-radius: 6px;
@@ -407,6 +424,34 @@
   .shopify-editor .testimonial-item {
     transition: all 0.3s ease;
   }
+  .testimonial-carousel {
+    transition: all 0.3s ease;
+  }
+  .testimonial-carousel .swiper-button-prev,
+  .testimonial-carousel .swiper-button-next {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .testimonial-carousel:hover .swiper-button-prev,
+  .testimonial-carousel:hover .swiper-button-next {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 48px;
+    height: 48px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  }
+  .swiper-button-next:after,
+  .swiper-button-prev:after {
+    font-size: 1rem;
+    color: #000;
+  }
 </style>
 
 {% schema %}
@@ -415,7 +460,7 @@
   "settings": [
     {
       "type": "select",
-      "id": "section_width",
+      "id": "page_width",
       "label": "Section width",
       "options": [
         { "value": "default", "label": "Default" },
@@ -665,7 +710,13 @@
     {
       "name": "Product Testimonials",
       "category": "Text",
-      "blocks": [{ "type": "testimonial" }, { "type": "testimonial" }]
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
     }
   ]
 }
