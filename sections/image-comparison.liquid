@@ -98,80 +98,88 @@
       >
         {% for block in section.blocks %}
           {% case block.type %}
-              <div class="ip-content-block">
             {% when 'heading' %}
-              <h2
-                class="image-comparison-heading"
-                style="
-                  font-size: {{ block.settings.font_size }}px; margin-top: 0;
-                  font-weight: {{ block.settings.font_weight }};
-                  margin-bottom: {{ block.settings.header_spacing_bottom }}px;
-                  {% if block.settings.header_transform %}text-transform: uppercase;{% endif %}
-                "
-              >
-                {{ block.settings.heading_text }}
-              </h2>
+              <div class="ip-content-block">
+                <h2
+                  class="image-comparison-heading"
+                  style="
+                    font-size: {{ block.settings.font_size }}px; margin-top: 0;
+                    font-weight: {{ block.settings.font_weight }};
+                    margin-bottom: {{ block.settings.header_spacing_bottom }}px;
+                    {% if block.settings.header_transform %}text-transform: uppercase;{% endif %}
+                  "
+                >
+                  {{ block.settings.heading_text }}
+                </h2>
+              </div>
             {% when 'description' %}
-              <div
-                class="image-comparison-description"
-                style="
-                  font-size: {{ block.settings.font_size }}px;
-                  font-weight: {{ block.settings.font_weight }};
-                  margin-bottom: {{ block.settings.spacing_bottom }}px;
-                "
-              >
-                {{ block.settings.description_text }}
+              <div class="ip-content-block">
+                <div
+                  class="image-comparison-description"
+                  style="
+                    font-size: {{ block.settings.font_size }}px;
+                    font-weight: {{ block.settings.font_weight }};
+                    margin-bottom: {{ block.settings.spacing_bottom }}px;
+                  "
+                >
+                  {{ block.settings.description_text }}
+                </div>
               </div>
             {% when 'subheading' %}
-              <p
-                class="image-comparison-subheading"
-                style="
-                  font-size: {{ block.settings.font_size }}px;
-                  font-weight: {{ block.settings.font_weight }};
-                  {% if block.settings.uppercase %}text-transform: uppercase;{% endif %}
-                  margin-bottom: {{ block.settings.spacing_bottom }}px;
-                "
-              >
-                {{ block.settings.subheading_text }}
-              </p>
+              <div class="ip-content-block">
+                <p
+                  class="image-comparison-subheading"
+                  style="
+                    font-size: {{ block.settings.font_size }}px;
+                    font-weight: {{ block.settings.font_weight }};
+                    {% if block.settings.uppercase %}text-transform: uppercase;{% endif %}
+                    margin-bottom: {{ block.settings.spacing_bottom }}px;
+                  "
+                >
+                  {{ block.settings.subheading_text }}
+                </p>
+              </div>
             {% when 'button' %}
-              <a
-                href="{{ block.settings.button_url }}"
-                class="image-comparison-btn__{{ block.settings.button_type }}"
-                style="
-                  {% if block.settings.button_type == 'primary' %}
-                    background: {{ block.settings.button_color }};
-                    color: {{ block.settings.button_text_color }};
-                  {% endif %}
-                  {% if block.settings.button_type == 'outline' %}
-                    background: #fff;
-                    color: #111;
-                  {% endif %}
-                  {% if block.settings.button_type == 'link' %}
-                    color: #111;
-                  {% endif %}
-                  margin-bottom: {{ block.settings.spacing_bottom }}px;
-                "
-              >
-                {{ block.settings.button_label }}
-              </a>
+              <div class="ip-content-block">
+                <a
+                  href="{{ block.settings.button_url }}"
+                  class="image-comparison-btn__{{ block.settings.button_type }}"
+                  style="
+                    {% if block.settings.button_type == 'primary' %}
+                      background: {{ block.settings.button_color }};
+                      color: {{ block.settings.button_text_color }};
+                    {% endif %}
+                    {% if block.settings.button_type == 'outline' %}
+                      background: #fff;
+                      color: #111;
+                    {% endif %}
+                    {% if block.settings.button_type == 'link' %}
+                      color: #111;
+                    {% endif %}
+                    margin-bottom: {{ block.settings.spacing_bottom }}px;
+                  "
+                >
+                  {{ block.settings.button_label }}
+                </a>
               </div>
             {% when 'product' %}
-              <div class="image-comparision-wrapper" style="margin-bottom: {{ block.settings.spacing_bottom }}px;">
-                <img
-                  src="{{ block.settings.product.featured_image | image_url }}"
-                  alt="{{ block.settings.product.title }}"
-                  width="100"
-                  height="100"
-                  loading="lazy"
-                >
-                <a
-                  href="{{ block.settings.product.url }}"
-                  class="image-comparison-btn__{{ block.settings.button_type }}"
-                  style="text-decoration: none; color: inherit;"
-                >
-                  {{ block.settings.product.title }}
-                </a>
+              <div class="ip-content-block">
+                <div class="image-comparision-wrapper" style="margin-bottom: {{ block.settings.spacing_bottom }}px;">
+                  <img
+                    src="{{ block.settings.product.featured_image | image_url }}"
+                    alt="{{ block.settings.product.title }}"
+                    width="100"
+                    height="100"
+                    loading="lazy"
+                  >
+                  <a
+                    href="{{ block.settings.product.url }}"
+                    class="image-comparison-btn__{{ block.settings.button_type }}"
+                    style="text-decoration: none; color: inherit;"
+                  >
+                    {{ block.settings.product.title }}
+                  </a>
+                </div>
               </div>
           {% endcase %}
         {% endfor %}
@@ -628,7 +636,7 @@
       "name": "Subheading",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "subheading_text", "label": "Subheading Text" },
+        { "type": "text", "id": "subheading_text", "label": "Subheading Text", "default": "Subheading text" },
         { "type": "range", "id": "font_size", "label": "Font Size", "min": 12, "max": 36, "step": 2, "default": 14 },
         {
           "type": "select",
