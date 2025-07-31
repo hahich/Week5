@@ -38,13 +38,16 @@
     <h2>{{ section.settings.heading_text }}</h2>
     <p>{{ section.settings.description_text }}</p>
   </div>
-  <div class="image-comparison-flex
-    {% if width == '100' %}
-      is-full-width{% if position == 'right' %} position-right{% endif %}
-    {% else %}
-      {% if position == 'left' %} flex-row{% else %} flex-row-reverse{% endif %}
-    {% endif %}
-  ">
+  <div
+    class="
+      image-comparison-flex
+      {% if width == '100' %}
+        is-full-width{% if position == 'right' %} position-right{% endif %}
+      {% else %}
+        {% if position == 'left' %} flex-row{% else %} flex-row-reverse{% endif %}
+      {% endif %}
+    "
+  >
     <div
       class="image-comparison-left{% if width == '100' %} is-full-width{% endif %}"
       style="width: {{ width }}%;"
@@ -92,10 +95,13 @@
         </div>
       </div>
     </div>
-      <div class="image-content-wrapper{% if width == '100' %} is-full-width{% endif %}" style="{% if width != '100' %}width: calc(100% - {{ width }}%);{% endif %}">
-      <div
-        class="image-comparison-top"
-      >
+    <div
+      class="image-content-wrapper{% if width == '100' %} is-full-width{% endif %}"
+      style="{% if width != '100' %}width: calc(100% - {{ width }}%);{% endif %}"
+    >
+             <div
+         class="image-comparison-top"
+       >
         {% for block in section.blocks %}
           {% case block.type %}
             {% when 'heading' %}
@@ -162,8 +168,8 @@
                   {{ block.settings.button_label }}
                 </a>
               </div>
-            {% when 'product' %}
-              <div class="ip-content-block">
+                         {% when 'product' %}
+               <div class="ip-content-block product-block">
                 <div class="image-comparision-wrapper" style="margin-bottom: {{ block.settings.spacing_bottom }}px;">
                   <img
                     src="{{ block.settings.product.featured_image | image_url }}"
@@ -172,13 +178,16 @@
                     height="100"
                     loading="lazy"
                   >
-                  <a
-                    href="{{ block.settings.product.url }}"
-                    class="image-comparison-btn__{{ block.settings.button_type }}"
-                    style="text-decoration: none; color: inherit;"
-                  >
-                    {{ block.settings.product.title }}
-                  </a>
+                  <div class="ip-product-info">
+                    <a
+                      href="{{ block.settings.product.url }}"
+                      class="image-comparison-btn__{{ block.settings.button_type }}"
+                      style="text-decoration: none; color: inherit;"
+                    >
+                      {{ block.settings.product.title | default: 'Example prodcut title' }}
+                    </a>
+                    <p>{{ block.settings.product.price | money | default: '$100.00' }}</p>
+                  </div>
                 </div>
               </div>
           {% endcase %}
@@ -346,7 +355,7 @@
     font-weight: 600;
     border: none;
     border-radius: 999px;
-    padding: 16px 40px;
+    padding: 12px 40px;
     font-size: 1.6rem;
     cursor: pointer;
     text-decoration: none;
@@ -390,9 +399,17 @@
     order: 2;
     width: 100%;
   }
-  .image-content-wrapper.is-full-width {
-    width: 100% !important;
-  }
+     .image-content-wrapper.is-full-width {
+     width: 100% !important;
+   }
+   .image-comparison-top {
+     display: flex;
+     flex-direction: column;
+     height: 100%;
+   }
+   .ip-content-block.product-block {
+     margin-top: auto;
+   }
 </style>
 
 <script>
@@ -713,6 +730,11 @@
       ]
     }
   ],
-  "presets": [{ "name": "Image Comparison" }]
+  "presets": [
+    {
+      "name": "Image Comparison",
+      "blocks": [{ "type": "heading" }, { "type": "description" }, { "type": "button" }, { "type": "product" }]
+    }
+  ]
 }
 {% endschema %}
