@@ -38,33 +38,32 @@
       "settings": {
         "image_overlay_opacity": 40,
         "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
         "image_behavior": "none",
+        "desktop_content_position": "bottom-center",
         "desktop_content_alignment": "center",
+        "show_text_box": false,
         "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
         "stack_images_on_mobile": false,
+        "mobile_content_alignment": "center",
         "show_text_below": false
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
+        "collection": "all",
+        "products_to_show": 8,
         "title": "Featured products",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
+        "enable_desktop_slider": false,
         "full_width": false,
         "show_view_all": true,
         "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
+        "color_scheme": "scheme-1",
         "image_ratio": "adapt",
         "image_shape": "default",
         "show_secondary_image": true,
@@ -72,13 +71,188 @@
         "show_rating": false,
         "quick_add": "none",
         "columns_mobile": "2",
+        "swipe_on_mobile": false,
         "padding_top": 44,
         "padding_bottom": 36
+      }
+    },
+    "fa_qs_dUd7yz": {
+      "type": "FAQs",
+      "blocks": {
+        "faq_deMprc": {
+          "type": "faq",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>We offer a 30-day return policy for all unused items in their original packaging. Please contact our customer service team to initiate a return.</p>"
+          }
+        },
+        "faq_qa4BzR": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Standard shipping typically takes 3-5 business days. Express shipping is available for 1-2 business days delivery.</p>"
+          }
+        },
+        "faq_kfetpE": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>Yes, we ship to most countries worldwide. International shipping rates and delivery times vary by location.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_deMprc",
+        "faq_qa4BzR",
+        "faq_kfetpE"
+      ],
+      "name": "FAQs",
+      "settings": {
+        "section_width": "fluid",
+        "color_scheme": "background-1",
+        "heading": "Frequently Asked Questions",
+        "description": "<p>Find answers to common questions about our products and services.</p>",
+        "header_size": "medium",
+        "header_weight": "bold",
+        "alignment": "center",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "remove_default_space": false
+      }
+    },
+    "product_testimonials_pkMzha": {
+      "type": "product-testimonials",
+      "blocks": {
+        "testimonial_VJGBfQ": {
+          "type": "testimonial",
+          "settings": {
+            "star_rating": 5,
+            "quote": "",
+            "product": "",
+            "author_name": "Author's name"
+          }
+        },
+        "testimonial_citt3n": {
+          "type": "testimonial",
+          "settings": {
+            "star_rating": 5,
+            "quote": "",
+            "product": "",
+            "author_name": "Author's name"
+          }
+        },
+        "testimonial_6L9qpr": {
+          "type": "testimonial",
+          "settings": {
+            "star_rating": 5,
+            "quote": "",
+            "product": "",
+            "author_name": "Author's name"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_VJGBfQ",
+        "testimonial_citt3n",
+        "testimonial_6L9qpr"
+      ],
+      "name": "Product Testimonials",
+      "settings": {
+        "page_width": "fluid",
+        "color_scheme": "",
+        "heading": "What our customers say",
+        "description": "",
+        "header_size": "medium",
+        "alignment": "center",
+        "show_verified_buyer": true,
+        "show_image": true,
+        "image_position": "left",
+        "image_width": 30,
+        "framed": false,
+        "rate_color": "#FFA500",
+        "items_per_row": 2,
+        "column_gap": 24,
+        "show_next_back": true,
+        "pagination": "dots",
+        "infinite_slider": false,
+        "auto_change_slides": false,
+        "change_slides_every": 4,
+        "reveal_next_slide": false,
+        "mobile_items_per_row": 1,
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "remove_default_space": false
+      }
+    },
+    "image_comparison_BPLBJD": {
+      "type": "image-comparison",
+      "blocks": {
+        "heading_BJp3Ea": {
+          "type": "heading",
+          "settings": {
+            "heading_text": "Talk about your brand",
+            "font_size": 32,
+            "font_weight": "700",
+            "header_transform": false,
+            "header_spacing_bottom": 10
+          }
+        },
+        "description_fFMpCE": {
+          "type": "description",
+          "settings": {
+            "description_text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+            "font_size": 16,
+            "font_weight": "400",
+            "spacing_bottom": 10
+          }
+        },
+        "button_Ky8F9f": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_url": "",
+            "button_type": "primary",
+            "spacing_bottom": 10
+          }
+        },
+        "product_tiAzHA": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "spacing_bottom": 10
+          }
+        }
+      },
+      "block_order": [
+        "heading_BJp3Ea",
+        "description_fFMpCE",
+        "button_Ky8F9f",
+        "product_tiAzHA"
+      ],
+      "name": "Image Comparison",
+      "settings": {
+        "page_width": "fluid",
+        "color_scheme": "",
+        "heading_text": "",
+        "description_text": "",
+        "header_size": "medium",
+        "alignment": "center",
+        "width": "50",
+        "position": "left",
+        "show_text": true,
+        "image_ratio": "adapt",
+        "custom_ratio": "16:9",
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "remove_space": false
       }
     }
   },
   "order": [
     "image_banner",
-    "featured_collection"
+    "featured_collection",
+    "fa_qs_dUd7yz",
+    "product_testimonials_pkMzha",
+    "image_comparison_BPLBJD"
   ]
 }
