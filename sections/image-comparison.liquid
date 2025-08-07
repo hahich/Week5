@@ -33,9 +33,9 @@
   color-{{ section_color_scheme }}
   {% if remove_space %}no-section-space{% endif %}
 {% endcapture %}
-<div class="{{ section_classes | strip_newlines }}" style="max-width: {{ calculated_width }}; margin: 0 auto;">
+<div class="{{ section_classes | strip_newlines }}" style="max-width: {{ calculated_width }}; margin: 0 auto; padding-top: {{ padding_top }}px; padding-bottom: {{ padding_bottom }}px">
   <div class="image-comparision-header" style="text-align: {{ alignment }};">
-    <h2>{{ section.settings.heading_text }}</h2>
+    <h2 class="header-{{ header_size }}">{{ section.settings.heading_text }}</h2>
     <p>{{ section.settings.description_text }}</p>
   </div>
   <div
@@ -99,9 +99,9 @@
       class="image-content-wrapper{% if width == '100' %} is-full-width{% endif %}"
       style="{% if width != '100' %}width: calc(100% - {{ width }}%);{% endif %}"
     >
-             <div
-         class="image-comparison-top"
-       >
+      <div
+        class="image-comparison-top"
+      >
         {% for block in section.blocks %}
           {% case block.type %}
             {% when 'heading' %}
@@ -168,8 +168,8 @@
                   {{ block.settings.button_label }}
                 </a>
               </div>
-                         {% when 'product' %}
-               <div class="ip-content-block product-block">
+            {% when 'product' %}
+              <div class="ip-content-block product-block">
                 <div class="image-comparision-wrapper" style="margin-bottom: {{ block.settings.spacing_bottom }}px;">
                   <img
                     src="{{ block.settings.product.featured_image | image_url }}"
@@ -208,12 +208,21 @@
     flex-direction: row-reverse;
   }
   .image-comparison-section {
-    padding-top: {{ padding_top | default: 32 }}px;
-    padding-bottom: {{ padding_bottom | default: 32 }}px;
     {% if page_width == 'stretch' %}
       padding-left: 20px;
       padding-right: 20px;
+    {% else %}
+    padding: 0 3rem;
     {% endif %}
+  }
+  .header-small {
+    font-size: 2rem;
+  }
+  .header-medium {
+    font-size: 2.5rem;
+  }
+  .header-large {
+    font-size: 3.5rem;
   }
   .image-comparison-flex {
     justify-content: center;
