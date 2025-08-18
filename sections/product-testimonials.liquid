@@ -144,194 +144,11 @@
       {% endif %}
     </div>
 
-    <script>
-      (function () {
-        function initTestimonialCarousel() {
-          var el = document.querySelector('.product-testimonials-section .testimonial-carousel.swiper');
-          if (!el) return;
-          if (el.swiper) {
-            el.swiper.destroy(true, true);
-          }
-          var itemsPerRow = parseInt(el.getAttribute('data-items-per-row')) || 2;
-          var mobileItemsPerRow = parseInt(el.getAttribute('data-mobile-items-per-row')) || 1;
-          var gap = parseInt(el.getAttribute('data-column-gap')) || 24;
-          var autoplay = el.getAttribute('data-autoplay') === 'true';
-          var autoplaySpeed = parseInt(el.getAttribute('data-autoplay-speed')) * 1000 || 4000;
-          var showNextBack = el.getAttribute('data-show-next-back') === 'true';
-          var paginationType = el.getAttribute('data-pagination');
-          var infinite = el.getAttribute('data-infinite') === 'true';
-          var revealNext = el.getAttribute('data-reveal-next-slide') === 'true';
-
-          var slidesCount = el.querySelectorAll('.swiper-wrapper .swiper-slide').length;
-          var originalSlidesCount = slidesCount;
-
-          if (infinite) {
-            var wrapper = el.querySelector('.swiper-wrapper');
-            var originalSlides = wrapper.querySelectorAll('.swiper-slide');
-
-            originalSlides.forEach(function (slide, index) {
-              var clone = slide.cloneNode(true);
-              clone.classList.add('swiper-slide-cloned');
-              clone.setAttribute('data-swiper-slide-index', index);
-              wrapper.appendChild(clone);
-            });
-
-            slidesCount = wrapper.querySelectorAll('.swiper-slide').length;
-          }
-
-          el.style.setProperty('--items-per-row', itemsPerRow);
-          el.style.setProperty('--mobile-items-per-row', mobileItemsPerRow);
-          el.style.setProperty('--column-gap', gap + 'px');
-
-          if (typeof Swiper === 'undefined') return;
-
-          var swiperConfig = {
-            init: false,
-            slidesPerView: window.innerWidth >= 769 ? itemsPerRow : mobileItemsPerRow,
-            spaceBetween: gap,
-            loop: infinite,
-            loopedSlides: originalSlidesCount,
-            watchSlidesProgress: true,
-            observer: true,
-            observeParents: true,
-            navigation: showNextBack
-              ? {
-                  nextEl: el.querySelector('.swiper-button-next'),
-                  prevEl: el.querySelector('.swiper-button-prev'),
-                }
-              : false,
-            pagination:
-              paginationType && paginationType !== 'disable'
-                ? {
-                    el: el.querySelector('.swiper-pagination'),
-                    clickable: true,
-                    type: paginationType === 'progress' ? 'progressbar' : 'bullets',
-                    dynamicBullets: false,
-                    renderBullet: function (index, className) {
-                      return index < originalSlidesCount ? '<span class="' + className + '"></span>' : '';
-                    },
-                  }
-                : false,
-            autoplay: autoplay
-              ? {
-                  delay: autoplaySpeed,
-                  disableOnInteraction: false,
-                }
-              : false,
-            breakpoints: {
-              0: {
-                slidesPerView: mobileItemsPerRow,
-                slidesPerGroup: 1,
-              },
-              768: {
-                slidesPerView: mobileItemsPerRow,
-                slidesPerGroup: 1, 
-              },
-              991: {
-                slidesPerView: itemsPerRow,
-                slidesPerGroup: 1,
-              },
-            },
-            centeredSlides: revealNext,
-            slidesPerGroup: 1,
-            watchOverflow: true,
-            loopFillGroupWithBlank: false,
-            loopPreventsSliding: false,
-            resizeObserver: true,
-            updateOnWindowResize: true,
-            on: {
-              init: function () {
-              },
-              beforeLoopFix: function () {
-              },
-              loopFix: function () {
-              },
-            },
-          };
-
-          var swiper = new Swiper(el, swiperConfig);
-          swiper.init();
-
-          el.swiper = swiper;
-
-          if (infinite && paginationType && paginationType !== 'disable') {
-            var paginationEl = el.querySelector('.swiper-pagination');
-
-            function updateDots() {
-              var realIndex = swiper.realIndex;
-              var activeIndex = swiper.activeIndex;
-              var currentIndex = realIndex % originalSlidesCount;
-
-              if (paginationEl) {
-                var bullets = paginationEl.querySelectorAll('.swiper-pagination-bullet');
-                bullets.forEach(function (bullet, index) {
-                  var isActive = index === currentIndex;
-                  bullet.classList.toggle('swiper-pagination-bullet-active', isActive);
-                });
-              }
-            }
-
-            swiper.on('beforeTransitionStart', updateDots);
-            swiper.on('slideChangeTransitionEnd', updateDots);
-            swiper.on('transitionEnd', updateDots);
-
-            swiper.on('slideChange', function () {
-              if (swiper.activeIndex >= originalSlidesCount) {
-                requestAnimationFrame(function () {
-                  updateDots();
-                });
-              }
-            });
-
-            if (paginationEl) {
-              paginationEl.addEventListener('click', function (e) {
-                if (e.target.classList.contains('swiper-pagination-bullet')) {
-                  var bullets = Array.from(paginationEl.querySelectorAll('.swiper-pagination-bullet'));
-                  var clickedIndex = bullets.indexOf(e.target);
-                  if (clickedIndex !== -1) {
-                    swiper.slideToLoop(clickedIndex, undefined, true);
-                    requestAnimationFrame(function () {
-                      updateDots();
-                    });
-                  }
-                }
-              });
-            }
-
-            setTimeout(updateDots, 100);
-          }
-        }
-
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', initTestimonialCarousel);
-        } else {
-          initTestimonialCarousel();
-        }
-
-        if (typeof window.Shopify !== 'undefined' && window.Shopify.designMode) {
-          document.addEventListener('shopify:section:load', function (event) {
-            if (event.target.classList.contains('product-testimonials-section')) {
-              setTimeout(initTestimonialCarousel, 100);
-            }
-          });
-
-          document.addEventListener('shopify:block:select', function (event) {
-            if (event.target.closest('.product-testimonials-section')) {
-              setTimeout(initTestimonialCarousel, 100);
-            }
-          });
-
-          document.addEventListener('shopify:section:reorder', function (event) {
-            if (event.target.classList.contains('product-testimonials-section')) {
-              setTimeout(initTestimonialCarousel, 100);
-            }
-          });
-        }
-      })();
-    </script>
-  </div>
-
-  <style>
+    </div>
+ 
+   <script src="{{ 'section-carousel.js' | asset_url }}" defer></script>
+ 
+   <style>
     .product-testimonials-section {
       margin: 0 auto;
       padding: 0 3rem;
@@ -524,94 +341,94 @@
 
   {% schema %}
   {
-    "name": "Product Testimonials",
+    "name": "t:sections.product-testimonials.name",
     "settings": [
       {
         "type": "select",
         "id": "page_width",
-        "label": "Section width",
+        "label": "t:sections.product-testimonials.settings.page_width.label",
         "options": [
-          { "value": "default", "label": "Default" },
-          { "value": "fluid", "label": "Fluid container" },
-          { "value": "stretch", "label": "Stretch width" },
-          { "value": "full", "label": "Full width" }
+          { "value": "default", "label": "t:sections.product-testimonials.settings.page_width.options__1.label" },
+          { "value": "fluid", "label": "t:sections.product-testimonials.settings.page_width.options__2.label" },
+          { "value": "stretch", "label": "t:sections.product-testimonials.settings.page_width.options__3.label" },
+          { "value": "full", "label": "t:sections.product-testimonials.settings.page_width.options__4.label" }
         ],
         "default": "default"
       },
       {
         "type": "color_scheme",
         "id": "color_scheme",
-        "label": "Color scheme"
+        "label": "t:sections.all.colors.label"
       },
       {
         "type": "header",
-        "content": "Section header"
+        "content": "t:sections.product-testimonials.settings.section_header.content"
       },
       {
         "type": "text",
         "id": "heading",
-        "label": "Heading",
-        "default": "What our customers say"
+        "label": "t:sections.product-testimonials.settings.heading.label",
+        "default": "t:sections.product-testimonials.settings.heading.default"
       },
       {
         "type": "richtext",
         "id": "description",
-        "label": "Description"
+        "label": "t:sections.product-testimonials.settings.description.label"
       },
       {
         "type": "select",
         "id": "header_size",
-        "label": "Heading size",
+        "label": "t:sections.product-testimonials.settings.header_size.label",
         "options": [
-          { "value": "small", "label": "Small" },
-          { "value": "medium", "label": "Medium" },
-          { "value": "large", "label": "Large" }
+          { "value": "small", "label": "t:sections.product-testimonials.settings.header_size.options__1.label" },
+          { "value": "medium", "label": "t:sections.product-testimonials.settings.header_size.options__2.label" },
+          { "value": "large", "label": "t:sections.product-testimonials.settings.header_size.options__3.label" }
         ],
         "default": "medium"
       },
       {
         "type": "select",
         "id": "alignment",
-        "label": "Alignment",
+        "label": "t:sections.product-testimonials.settings.alignment.label",
         "options": [
-          { "value": "left", "label": "Left" },
-          { "value": "center", "label": "Center" },
-          { "value": "right", "label": "Right" }
+          { "value": "left", "label": "t:sections.product-testimonials.settings.alignment.options__1.label" },
+          { "value": "center", "label": "t:sections.product-testimonials.settings.alignment.options__2.label" },
+          { "value": "right", "label": "t:sections.product-testimonials.settings.alignment.options__3.label" }
         ],
         "default": "center"
       },
       {
         "type": "header",
-        "content": "Testimonial settings"
+        "content": "t:sections.product-testimonials.settings.testimonial_settings.content"
       },
       {
         "type": "checkbox",
         "id": "show_verified_buyer",
-        "label": "Show verified buyer",
+        "label": "t:sections.product-testimonials.settings.show_verified_buyer.label",
         "default": true
       },
       {
         "type": "checkbox",
         "id": "show_image",
-        "label": "Show image",
+        "label": "t:sections.product-testimonials.settings.show_image.label",
         "default": true
       },
       {
         "type": "select",
         "id": "image_position",
-        "label": "Image position",
+        "label": "t:sections.product-testimonials.settings.image_position.label",
         "options": [
-          { "value": "left", "label": "Left" },
-          { "value": "top", "label": "Top" },
-          { "value": "right", "label": "Right" },
-          { "value": "bottom", "label": "Bottom" }
+          { "value": "left", "label": "t:sections.product-testimonials.settings.image_position.options__1.label" },
+          { "value": "top", "label": "t:sections.product-testimonials.settings.image_position.options__2.label" },
+          { "value": "right", "label": "t:sections.product-testimonials.settings.image_position.options__3.label" },
+          { "value": "bottom", "label": "t:sections.product-testimonials.settings.image_position.options__4.label" }
         ],
         "default": "left"
       },
       {
         "type": "range",
         "id": "image_width",
-        "label": "Image width",
+        "label": "t:sections.product-testimonials.settings.image_width.label",
         "min": 20,
         "max": 50,
         "step": 1,
@@ -621,19 +438,19 @@
       {
         "type": "checkbox",
         "id": "framed",
-        "label": "Framed",
+        "label": "t:sections.product-testimonials.settings.framed.label",
         "default": false
       },
       {
         "type": "color",
         "id": "rate_color",
-        "label": "Rate color",
+        "label": "t:sections.product-testimonials.settings.rate_color.label",
         "default": "#FFA500"
       },
       {
         "type": "range",
         "id": "items_per_row",
-        "label": "Items per row",
+        "label": "t:sections.product-testimonials.settings.items_per_row.label",
         "min": 1,
         "max": 4,
         "step": 1,
@@ -642,7 +459,7 @@
       {
         "type": "range",
         "id": "column_gap",
-        "label": "Column gap (px)",
+        "label": "t:sections.product-testimonials.settings.column_gap.label",
         "min": 0,
         "max": 50,
         "step": 2,
@@ -651,37 +468,37 @@
       {
         "type": "checkbox",
         "id": "show_next_back",
-        "label": "Show next/back",
+        "label": "t:sections.product-testimonials.settings.show_next_back.label",
         "default": true
       },
       {
         "type": "select",
         "id": "pagination",
-        "label": "Pagination",
+        "label": "t:sections.product-testimonials.settings.pagination.label",
         "options": [
-          { "value": "disable", "label": "Disable" },
-          { "value": "dots", "label": "Show dots" },
-          { "value": "dots_mobile", "label": "Show dots on mobile" },
-          { "value": "progress", "label": "Show progress bar" }
+          { "value": "disable", "label": "t:sections.product-testimonials.settings.pagination.options__1.label" },
+          { "value": "dots", "label": "t:sections.product-testimonials.settings.pagination.options__2.label" },
+          { "value": "dots_mobile", "label": "t:sections.product-testimonials.settings.pagination.options__3.label" },
+          { "value": "progress", "label": "t:sections.product-testimonials.settings.pagination.options__4.label" }
         ],
         "default": "dots"
       },
       {
         "type": "checkbox",
         "id": "infinite_slider",
-        "label": "Infinite slider",
+        "label": "t:sections.product-testimonials.settings.infinite_slider.label",
         "default": false
       },
       {
         "type": "checkbox",
         "id": "auto_change_slides",
-        "label": "Auto change slides",
+        "label": "t:sections.product-testimonials.settings.auto_change_slides.label",
         "default": false
       },
       {
         "type": "range",
         "id": "change_slides_every",
-        "label": "Change slides every (seconds)",
+        "label": "t:sections.product-testimonials.settings.change_slides_every.label",
         "min": 2,
         "max": 6,
         "step": 1,
@@ -690,17 +507,17 @@
       {
         "type": "checkbox",
         "id": "reveal_next_slide",
-        "label": "Reveal next slide",
+        "label": "t:sections.product-testimonials.settings.reveal_next_slide.label",
         "default": false
       },
       {
         "type": "header",
-        "content": "Mobile settings"
+        "content": "t:sections.product-testimonials.settings.mobile_settings.content"
       },
       {
         "type": "range",
         "id": "mobile_items_per_row",
-        "label": "Items per row (mobile)",
+        "label": "t:sections.product-testimonials.settings.mobile_items_per_row.label",
         "min": 1,
         "max": 3,
         "step": 1,
@@ -708,12 +525,12 @@
       },
       {
         "type": "header",
-        "content": "Section padding"
+        "content": "t:sections.product-testimonials.settings.section_padding.content"
       },
       {
         "type": "range",
         "id": "padding_top",
-        "label": "Padding top",
+        "label": "t:sections.product-testimonials.settings.padding_top.label",
         "min": 0,
         "max": 100,
         "step": 4,
@@ -722,7 +539,7 @@
       {
         "type": "range",
         "id": "padding_bottom",
-        "label": "Padding bottom",
+        "label": "t:sections.product-testimonials.settings.padding_bottom.label",
         "min": 0,
         "max": 100,
         "step": 4,
@@ -731,24 +548,24 @@
       {
         "type": "checkbox",
         "id": "remove_default_space",
-        "label": "Remove default space between sections",
+        "label": "t:sections.product-testimonials.settings.remove_default_space.label",
         "default": false
       }
     ],
     "blocks": [
       {
         "type": "testimonial",
-        "name": "Testimonial",
+        "name": "t:sections.product-testimonials.blocks.testimonial.name",
         "settings": [
           {
             "type": "image_picker",
             "id": "author_image",
-            "label": "Author's image"
+            "label": "t:sections.product-testimonials.blocks.testimonial.settings.author_image.label"
           },
           {
             "type": "range",
             "id": "star_rating",
-            "label": "Star rating",
+            "label": "t:sections.product-testimonials.blocks.testimonial.settings.star_rating.label",
             "min": 1,
             "max": 5,
             "step": 1,
@@ -757,18 +574,18 @@
           {
             "type": "richtext",
             "id": "quote",
-            "label": "Quote"
+            "label": "t:sections.product-testimonials.blocks.testimonial.settings.quote.label"
           },
           {
             "type": "product",
             "id": "product",
-            "label": "Select product"
+            "label": "t:sections.product-testimonials.blocks.testimonial.settings.product.label"
           },
           {
             "type": "text",
             "id": "author_name",
-            "label": "Author's name",
-            "default": "Author's name"
+            "label": "t:sections.product-testimonials.blocks.testimonial.settings.author_name.label",
+            "default": "t:sections.product-testimonials.blocks.testimonial.settings.author_name.default"
           }
         ]
       }
@@ -776,7 +593,7 @@
     "max_blocks": 10,
     "presets": [
       {
-        "name": "Product Testimonials",
+        "name": "t:sections.product-testimonials.presets.name",
         "category": "Text",
         "blocks": [{ "type": "testimonial" }, { "type": "testimonial" }, { "type": "testimonial" }]
       }

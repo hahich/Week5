@@ -940,7 +940,7 @@
               "default": "Share"
             },
             "featured_image_info": {
-              "content": "If you include a link in social media posts, the page’s featured image will be shown as the preview image. [Learn more](https://help.shopify.com/manual/online-store/images/showing-social-media-thumbnail-images)"
+              "content": "If you include a link in social media posts, the page's featured image will be shown as the preview image. [Learn more](https://help.shopify.com/manual/online-store/images/showing-social-media-thumbnail-images)"
             },
             "title_info": {
               "content": "A store title and description are included with the preview image. [Learn more](https://help.shopify.com/manual/promoting-marketing/seo/adding-keywords#set-a-title-and-description-for-your-online-store)"
@@ -977,7 +977,7 @@
           }
         },
         "hide_variants": {
-          "label": "Hide unselected variants’ media on desktop"
+          "label": "Hide unselected variants' media on desktop"
         },
         "enable_video_looping": {
           "label": "Loop video"
@@ -3404,6 +3404,168 @@
       },
       "presets": {
         "name": "Collapsible content"
+      }
+    },
+    "faqs": {
+      "name": "FAQs",
+      "settings": {
+        "section_width": {
+          "label": "Section width",
+          "options__1": { "label": "Default" },
+          "options__2": { "label": "Fluid container" },
+          "options__3": { "label": "Stretch width" },
+          "options__4": { "label": "Full width" }
+        },
+        "section_header": {
+          "content": "Section header"
+        },
+        "heading": {
+          "label": "Heading",
+          "default": "FAQs"
+        },
+        "description": {
+          "label": "Description"
+        },
+        "header_size": {
+          "label": "Heading size",
+          "options__1": { "label": "Small" },
+          "options__2": { "label": "Medium" },
+          "options__3": { "label": "Large" }
+        },
+        "header_weight": {
+          "label": "Heading weight",
+          "options__1": { "label": "Normal" },
+          "options__2": { "label": "Bold" }
+        },
+        "alignment": {
+          "label": "Alignment",
+          "options__1": { "label": "Left" },
+          "options__2": { "label": "Center" },
+          "options__3": { "label": "Right" }
+        },
+        "section_padding": {
+          "content": "Section padding"
+        },
+        "padding_top": {
+          "label": "Padding top"
+        },
+        "padding_bottom": {
+          "label": "Padding bottom"
+        },
+        "remove_default_space": {
+          "label": "Remove default space between sections"
+        }
+      },
+      "blocks": {
+        "faq": {
+          "name": "Question",
+          "settings": {
+            "question": { "label": "Question" },
+            "answer": { "label": "Answer" }
+          }
+        }
+      },
+      "presets": {
+        "name": "FAQs",
+        "heading": "Frequently Asked Questions",
+        "description": "<p>Find answers to common questions about our products and services.</p>",
+        "items": {
+          "question_1": "What is your return policy?",
+          "answer_1": "<p>We offer a 30-day return policy for all unused items in their original packaging. Please contact our customer service team to initiate a return.</p>",
+          "question_2": "How long does shipping take?",
+          "answer_2": "<p>Standard shipping typically takes 3-5 business days. Express shipping is available for 1-2 business days delivery.</p>",
+          "question_3": "Do you ship internationally?",
+          "answer_3": "<p>Yes, we ship to most countries worldwide. International shipping rates and delivery times vary by location.</p>"
+        },
+        "blocks": {
+          "question_1": {
+            "question": { "default": "What is your return policy?" },
+            "answer": { "default": "We offer a 30-day return policy for all unused items in their original packaging. Please contact our customer service team to initiate a return." }
+          },
+          "question_2": {
+            "question": { "default": "How long does shipping take?" },
+            "answer": { "default": "Standard shipping typically takes 3-5 business days. Express shipping is available for 1-2 business days delivery." }
+          },
+          "question_3": {
+            "question": { "default": "Do you ship internationally?" },
+            "answer": { "default": "Yes, we ship to most countries worldwide. International shipping rates and delivery times vary by location." }
+          }
+        }
+      }
+    },
+    "product-testimonials": {
+      "name": "Product Testimonials",
+      "settings": {
+        "page_width": {
+          "label": "Section width",
+          "options__1": { "label": "Default" },
+          "options__2": { "label": "Fluid container" },
+          "options__3": { "label": "Stretch width" },
+          "options__4": { "label": "Full width" }
+        },
+        "section_header": { "content": "Section header" },
+        "heading": { "label": "Heading", "default": "What our customers say" },
+        "description": { "label": "Description" },
+        "header_size": {
+          "label": "Heading size",
+          "options__1": { "label": "Small" },
+          "options__2": { "label": "Medium" },
+          "options__3": { "label": "Large" }
+        },
+        "alignment": {
+          "label": "Alignment",
+          "options__1": { "label": "Left" },
+          "options__2": { "label": "Center" },
+          "options__3": { "label": "Right" }
+        },
+        "testimonial_settings": { "content": "Testimonial settings" },
+        "show_verified_buyer": { "label": "Show verified buyer" },
+        "show_image": { "label": "Show image" },
+        "image_position": {
+          "label": "Image position",
+          "options__1": { "label": "Left" },
+          "options__2": { "label": "Top" },
+          "options__3": { "label": "Right" },
+          "options__4": { "label": "Bottom" }
+        },
+        "image_width": { "label": "Image width" },
+        "framed": { "label": "Framed" },
+        "rate_color": { "label": "Rate color" },
+        "items_per_row": { "label": "Items per row" },
+        "column_gap": { "label": "Column gap (px)" },
+        "show_next_back": { "label": "Show next/back" },
+        "pagination": {
+          "label": "Pagination",
+          "options__1": { "label": "Disable" },
+          "options__2": { "label": "Show dots" },
+          "options__3": { "label": "Show dots on mobile" },
+          "options__4": { "label": "Show progress bar" }
+        },
+        "infinite_slider": { "label": "Infinite slider" },
+        "auto_change_slides": { "label": "Auto change slides" },
+        "change_slides_every": { "label": "Change slides every (seconds)" },
+        "reveal_next_slide": { "label": "Reveal next slide" },
+        "mobile_settings": { "content": "Mobile settings" },
+        "mobile_items_per_row": { "label": "Items per row (mobile)" },
+        "section_padding": { "content": "Section padding" },
+        "padding_top": { "label": "Padding top" },
+        "padding_bottom": { "label": "Padding bottom" },
+        "remove_default_space": { "label": "Remove default space between sections" }
+      },
+      "blocks": {
+        "testimonial": {
+          "name": "Testimonial",
+          "settings": {
+            "author_image": { "label": "Author's image" },
+            "star_rating": { "label": "Star rating" },
+            "quote": { "label": "Quote" },
+            "product": { "label": "Select product" },
+            "author_name": { "label": "Author's name", "default": "Author's name" }
+          }
+        }
+      },
+      "presets": {
+        "name": "Product Testimonials"
       }
     }
   }

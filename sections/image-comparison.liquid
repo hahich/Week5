@@ -421,60 +421,7 @@
    }
 </style>
 
-<script>
-  (function () {
-    var slider = document.getElementById('image-comparison-{{ section.id }}');
-    if (!slider) return;
-    var bar = slider.querySelector('.slider-bar');
-    var button = slider.querySelector('.slider-bar-button__pull');
-    var beforeImg = slider.querySelector('.before-image');
-    var afterImg = slider.querySelector('.after-image');
-    var dragging = false;
-    var container = slider;
-
-    function setPosition(percent) {
-      percent = Math.max(0, Math.min(100, percent));
-      bar.style.left = percent + '%';
-      button.style.left = '50%';
-      button.style.top = '50%';
-      button.style.transform = 'translate(-50%, -50%)';
-      afterImg.style.clipPath = 'inset(0 0 0 ' + percent + '%)';
-    }
-
-    function getPercent(x) {
-      var rect = container.getBoundingClientRect();
-      return ((x - rect.left) / rect.width) * 100;
-    }
-
-    button.addEventListener('mousedown', function (e) {
-      dragging = true;
-      document.body.style.userSelect = 'none';
-    });
-    window.addEventListener('mousemove', function (e) {
-      if (!dragging) return;
-      setPosition(getPercent(e.clientX));
-    });
-    window.addEventListener('mouseup', function () {
-      dragging = false;
-      document.body.style.userSelect = '';
-    });
-    // Touch support
-    button.addEventListener('touchstart', function (e) {
-      dragging = true;
-      document.body.style.userSelect = 'none';
-    });
-    window.addEventListener('touchmove', function (e) {
-      if (!dragging) return;
-      setPosition(getPercent(e.touches[0].clientX));
-    });
-    window.addEventListener('touchend', function () {
-      dragging = false;
-      document.body.style.userSelect = '';
-    });
-    // Init
-    setPosition(50);
-  })();
-</script>
+<script src="{{ 'image-comparison.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
