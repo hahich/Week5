@@ -173,6 +173,8 @@
         "description_text": "",
         "header_size": "medium",
         "alignment": "center",
+        "before_image": "shopify://shop_images/review_1-1.webp",
+        "after_image": "shopify://shop_images/review_1-2.webp",
         "width": "50",
         "position": "left",
         "show_text": true,
