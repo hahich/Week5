@@ -17,22 +17,24 @@
   <div
     class="
       product-testimonials-section
-      page_width-{{ page_width }}
+      section-width-{{ page_width }}
+      section-padding
       {% if section.settings.remove_default_space %}no-default-space{% endif %}
+      header-size-{{ section.settings.header_size }}
       color-{{ section_color_scheme }}
     "
-    style="padding-top:{{ section.settings.padding_top }}px; padding-bottom:{{ section.settings.padding_bottom }}px; max-width: {{ calculated_width }}; margin: 0 auto;"
+    style="padding-top:{{ section.settings.padding_top }}px; padding-bottom:{{ section.settings.padding_bottom }}px; --testimonial-image-width: {{ section.settings.image_width }}%;"
   >
     {% if section.settings.heading != blank %}
       <h2
-        class="testimonial-heading heading-size-{{ section.settings.header_size }} align-{{ section.settings.alignment }}"
+        class="testimonial-heading text-align-{{ section.settings.alignment }}"
         style="font-weight: 600;"
       >
         {{ section.settings.heading }}
       </h2>
     {% endif %}
     {% if section.settings.description != blank %}
-      <div class="testimonial-description align-{{ section.settings.alignment }}">
+      <div class="testimonial-description text-align-{{ section.settings.alignment }}">
         {{ section.settings.description }}
       </div>
     {% endif %}
@@ -48,6 +50,7 @@
       data-reveal-next-slide="{{ section.settings.reveal_next_slide }}"
       data-column-gap="{{ section.settings.column_gap }}"
       data-infinite="{{ section.settings.infinite_slider }}"
+      style="--items-per-row: {{ section.settings.items_per_row }}; --mobile-items-per-row: {{ section.settings.mobile_items_per_row }}; --column-gap: {{ section.settings.column_gap }}px;"
     >
       <div class="swiper-wrapper">
         {% for block in section.blocks %}
@@ -55,7 +58,7 @@
             class="swiper-slide testimonial-item image-{{ section.settings.image_position }} {% if section.settings.framed %}framed{% endif %}"
           >
             {% if section.settings.show_image %}
-              <div class="testimonial-image" style="width: {{ section.settings.image_width }}%;">
+              <div class="testimonial-image">
                 {% if block.settings.author_image != blank %}
                   <img
                     src="{{ block.settings.author_image | img_url: '300x300' }}"
@@ -122,9 +125,6 @@
                   <div class="testimonial-product-info">
                     <div class="testimonial-product-title">Example product title</div>
                     <div class="testimonial-product-price">$19.99</div>
-                    <div class="testimonial-product-fake-content">
-                      This is a fake product description for demo purposes.
-                    </div>
                   </div>
                 {% endif %}
               </div>
@@ -139,7 +139,6 @@
       {% if section.settings.pagination != 'disable' %}
         <div
           class="swiper-pagination"
-          style="position: absolute; left: 0; right: 0; bottom: 0; top: auto; width: 100%;"
         ></div>
       {% endif %}
     </div>
@@ -148,197 +147,7 @@
  
    <script src="{{ 'section-carousel.js' | asset_url }}" defer></script>
  
-   <style>
-    .product-testimonials-section {
-      margin: 0 auto;
-      padding: 0 3rem;
-    }
-    .testimonial-item {
-      display: flex;
-      gap: 10px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      min-height: 200px;
-      overflow: hidden;
-      flex-shrink: 1 !important;
-      width: 100% !important;
-      height: 100%;
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-      width: 48px;
-      height: 48px;
-      background: #fff;
-      border-radius: 50%;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-    }
-    .swiper-button-next:after,
-    .swiper-button-prev:after {
-      font-size: 1rem;
-      color: #000;
-    }
-    .testimonial-carousel .swiper-button-prev,
-    .testimonial-carousel .swiper-button-next {
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .testimonial-carousel:hover .swiper-button-prev,
-    .testimonial-carousel:hover .swiper-button-next {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-
-    .testimonial-carousel .swiper-slide {
-      height: auto;
-      display: flex;
-      align-items: stretch;
-    }
-
-    .testimonial-carousel .swiper-wrapper {
-      align-items: stretch;
-      display: flex;
-    }
-
-    .testimonial-carousel .swiper-slide .testimonial-item {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-      
-    .image-bottom .testimonial-item {
-      min-height: 250px;
-    }
-
-    .testimonial-carousel .swiper-slide {
-      width: calc((100% - var(--column-gap, 24px) * (var(--items-per-row, 2) - 1)) / var(--items-per-row, 2)) !important;
-      flex-shrink: 0 !important;
-    }
-
-    .testimonial-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .image-top {
-      flex-direction: column;
-    }
-    .image-bottom {
-      flex-direction: column-reverse;
-    }
-    .image-right {
-      flex-direction: row-reverse;
-    }
-
-    .image-top .testimonial-image,
-    .image-bottom .testimonial-image {
-      width: 100% !important;
-      height: auto;
-      flex-shrink: 0;
-      object-fit: cover;
-      aspect-ratio: 16/9;
-    }
-
-    .image-left .testimonial-image,
-    .image-right .testimonial-image {
-      width: {{ section.settings.image_width }}% !important;
-      height: auto;
-      flex-shrink: 0;
-      object-fit: cover;
-      aspect-ratio: 1/1;
-    }
-
-    .testimonial-content {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .image-bottom .testimonial-content {
-      width: 100% !important;
-      flex: 1;
-    }
-
-    .image-bottom .testimonial-image {
-      margin-top: 10px;
-    }
-    .testimonial-product a {
-      color: var(--color-foreground);
-      font-size: 14px;
-      font-weight: 500;
-      text-decoration: none;
-    }
-    .testimonial-product {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 1;
-    }
-    .swiper-wrapper {
-      box-sizing: border-box;
-    }
-
-    @media (min-width: 992px) {
-    .page_width-fluid {
-      padding: 0 3rem;
-    }
-    .page_width-default {
-      max-width: 800px;
-    }
-    .page_width-stretch {
-      padding: 0 20px;
-    }
-    .page_width-full {
-      width: 100%;
-      padding: 0 30px;
-    }
-    .no-default-space {
-      margin-top: 0 !important;
-      margin-bottom: 0 !important;
-    }
-    .align-left {
-      text-align: left;
-    }
-    .align-center {
-      text-align: center;
-    }
-    .align-right {
-      text-align: right;
-    }
-    .heading-size-small {
-      font-size: 1.5rem;
-    }
-    .heading-size-medium {
-      font-size: 2rem;
-    }
-    .heading-size-large {
-      font-size: 2.5rem;
-    }
-    .heading-size-xlarge {
-      font-size: 3rem;
-    }
-    }
-    @media (max-width: 991px) {
-      .product-testimonials-section {
-        width: 100% !important;
-      }
-      .testimonial-carousel .swiper-slide {
-        width: calc((100% - var(--column-gap, 24px) * (var(--items-per-row, 2) - 1)) / var(--items-per-row, 2)) !important;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .testimonial-carousel .swiper-slide {
-        width: calc((100% - var(--column-gap, 24px) * (var(--mobile-items-per-row, 1) - 1)) / var(--mobile-items-per-row, 1)) !important;
-      }
-    }
-  </style>
-
+ 
   {% schema %}
   {
     "name": "t:sections.product-testimonials.name",
@@ -574,7 +383,8 @@
           {
             "type": "richtext",
             "id": "quote",
-            "label": "t:sections.product-testimonials.blocks.testimonial.settings.quote.label"
+            "label": "t:sections.product-testimonials.blocks.testimonial.settings.quote.label",
+            "default": "<p>You can add text content from press comments, reviews, or testimonials here.</p>"
           },
           {
             "type": "product",

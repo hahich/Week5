@@ -110,11 +110,11 @@
 }
 
 .faq-answer {
-  margin: 0 0 1.25rem 0;
   padding-left: 1.5rem;
   color: rgb(var(--color-foreground));
   font-size: 1.5rem;
   line-height: 1.6;
+  text-align: left;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
@@ -219,7 +219,6 @@
   width: 100%;
   overflow: hidden;
   z-index: 2;
-  /* Hide left 50% by default so the handle shows a single divider line */
   clip-path: inset(0 0 0 50%);
 }
 
@@ -396,4 +395,185 @@
   --slider-button-height: 48px;
   --label-padding: 8px 24px;
   --label-border-radius: 999px;
+} 
+
+/* ===== PRODUCT TESTIMONIALS SECTION STYLES ===== */
+.product-testimonials-section {
+  margin: 0 auto;
+  padding: 0 var(--section-padding-horizontal);
+}
+
+.testimonial-item {
+  display: flex;
+  gap: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  min-height: 200px;
+  overflow: hidden;
+  flex-shrink: 1 !important;
+  width: 100% !important;
+  height: 100%;
+}
+
+.testimonial-carousel .swiper-button-prev,
+.testimonial-carousel .swiper-button-next {
+  width: 48px;
+  height: 48px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.testimonial-carousel .swiper-button-next:after,
+.testimonial-carousel .swiper-button-prev:after {
+  font-size: 1rem;
+  color: #000;
+}
+
+.testimonial-carousel .swiper-button-prev,
+.testimonial-carousel .swiper-button-next {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--section-transition-timing);
+}
+
+.testimonial-carousel:hover .swiper-button-prev,
+.testimonial-carousel:hover .swiper-button-next {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.testimonial-carousel .swiper-slide {
+  height: auto;
+  display: flex;
+  align-items: stretch;
+}
+
+.testimonial-carousel .swiper-wrapper {
+  align-items: stretch;
+  display: flex;
+}
+
+.testimonial-carousel .swiper-slide .testimonial-item {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.image-bottom .testimonial-item {
+  min-height: 250px;
+}
+
+.testimonial-carousel .swiper-slide {
+  width: calc((100% - var(--column-gap, 24px) * (var(--items-per-row, 2) - 1)) / var(--items-per-row, 2)) !important;
+  flex-shrink: 0 !important;
+}
+
+.testimonial-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-top {
+  flex-direction: column;
+}
+
+.image-bottom {
+  flex-direction: column-reverse;
+}
+
+.image-right {
+  flex-direction: row-reverse;
+}
+
+.image-top .testimonial-image,
+.image-bottom .testimonial-image {
+  width: 100% !important;
+  height: auto;
+  flex-shrink: 0;
+  object-fit: cover;
+  aspect-ratio: 16/9;
+}
+
+.image-left .testimonial-image,
+.image-right .testimonial-image {
+  width: var(--testimonial-image-width, 30%) !important;
+  height: 100%;
+  flex-shrink: 0;
+  object-fit: cover;
+  aspect-ratio: 1/1;
+}
+
+.testimonial-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.verified-buyer {
+  margin-left: 1rem;
+}
+
+.image-bottom .testimonial-content {
+  width: 100% !important;
+  flex: 1;
+}
+
+.image-bottom .testimonial-image {
+  margin-top: 10px;
+}
+
+.testimonial-product-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.testimonial-product a {
+  color: var(--color-foreground);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.testimonial-product {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 1;
+  padding-bottom: 1rem;
+}
+
+/* Ensure consistent sizing */
+.swiper-wrapper {
+  box-sizing: border-box;
+}
+
+/* Pagination placement */
+.testimonial-carousel .swiper-pagination {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: auto;
+  width: 100%;
+}
+
+@media (max-width: 991px) {
+  .product-testimonials-section {
+    width: 100% !important;
+  }
+  .testimonial-carousel .swiper-slide {
+    width: calc((100% - var(--column-gap, 24px) * (var(--items-per-row, 2) - 1)) / var(--items-per-row, 2)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .testimonial-carousel .swiper-slide {
+    width: calc((100% - var(--column-gap, 24px) * (var(--mobile-items-per-row, 1) - 1)) / var(--mobile-items-per-row, 1)) !important;
+  }
 } 

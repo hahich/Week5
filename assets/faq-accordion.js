@@ -29,20 +29,15 @@
         // Create new event handler
         questionButton.faqClickHandler = function () {
           const isCurrentlyExpanded = questionButton.getAttribute('aria-expanded') === 'true';
-          
-          // Close all FAQ items
-          document.querySelectorAll('.faq-question').forEach((questionBtn) => {
-            questionBtn.setAttribute('aria-expanded', 'false');
-            const toggleIcon = questionBtn.querySelector('.faq-toggle');
+
+          // Toggle only the clicked FAQ item (do not close others)
+          if (isCurrentlyExpanded) {
+            questionButton.setAttribute('aria-expanded', 'false');
+            const toggleIcon = questionButton.querySelector('.faq-toggle');
             if (toggleIcon) toggleIcon.textContent = '+';
-          });
-          document.querySelectorAll('.faq-answer').forEach((answerEl) => {
-            answerEl.classList.remove('active');
-            answerEl.style.maxHeight = null;
-          });
-          
-          // Open this FAQ item if not already open
-          if (!isCurrentlyExpanded) {
+            answerElement.classList.remove('active');
+            answerElement.style.maxHeight = null;
+          } else {
             questionButton.setAttribute('aria-expanded', 'true');
             const currentToggleIcon = questionButton.querySelector('.faq-toggle');
             if (currentToggleIcon) currentToggleIcon.textContent = '–';
