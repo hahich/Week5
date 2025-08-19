@@ -1,43 +1,50 @@
-{% assign section_color_scheme = section.settings.color_scheme | default: settings.color_scheme %}
-{% assign page_width = section.settings.page_width %}
-{% if page_width == blank or page_width == 'default' %}
-  {% assign page_width = settings.page_width | default: 'default' %}
-{% endif %}
+{% liquid
+  assign section_color_scheme = section.settings.color_scheme | default: settings.color_scheme
+  assign page_width = section.settings.page_width
+  if page_width == blank or page_width == 'default'
+    assign page_width = settings.page_width | default: 'default'
+  endif
+  assign header_size = section.settings.header_size
+  assign alignment = section.settings.alignment
+  assign before_image = section.settings.before_image
+  assign after_image = section.settings.after_image
+  assign width = section.settings.width
+  assign position = section.settings.position
+  assign show_text = section.settings.show_text
+  assign image_ratio = section.settings.image_ratio
+  assign custom_ratio = section.settings.custom_ratio
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign remove_space = section.settings.remove_space
+%}
 
 {% comment %} Calculate section width based on settings {% endcomment %}
-{% assign calculated_width = '1410px' %}
-{% if page_width == 'fluid' %}
-  {% assign calculated_width = settings.page_width | default: '1200px' | append: 'px' %}
-{% elsif page_width == 'stretch' %}
-  {% assign stretch_width = settings.page_width | default: '1200px' | append: 'px' %}
-  {% assign calculated_width = stretch_width | minus: 40 | append: 'px' %}
-{% elsif page_width == 'full' %}
-  {% assign calculated_width = '100%' %}
-{% endif %}
-{% assign header_size = section.settings.header_size %}
-{% assign alignment = section.settings.alignment %}
-{% assign before_image = section.settings.before_image %}
-{% assign after_image = section.settings.after_image %}
-{% assign width = section.settings.width %}
-{% assign position = section.settings.position %}
-{% assign show_text = section.settings.show_text %}
-{% assign image_ratio = section.settings.image_ratio %}
-{% assign custom_ratio = section.settings.custom_ratio %}
-{% assign padding_top = section.settings.padding_top %}
-{% assign padding_bottom = section.settings.padding_bottom %}
-{% assign remove_space = section.settings.remove_space %}
+{% liquid
+  assign calculated_width = '1410px'
+  if page_width == 'fluid'
+    assign calculated_width = settings.page_width | default: '1200px' | append: 'px'
+  elsif page_width == 'stretch'
+    assign stretch_width = settings.page_width | default: '1200px' | append: 'px'
+    assign calculated_width = stretch_width | minus: 40 | append: 'px'
+  elsif page_width == 'full'
+    assign calculated_width = '100%'
+  endif
+%}
 
 {% capture section_classes %}
   image-comparison-section
   section-width-{{ page_width }}
   color-{{ section_color_scheme }}
   {% if remove_space %}no-section-space{% endif %}
+  section-padding
 {% endcapture %}
+
 <div class="{{ section_classes | strip_newlines }}" style="max-width: {{ calculated_width }}; margin: 0 auto; padding-top: {{ padding_top }}px; padding-bottom: {{ padding_bottom }}px">
-  <div class="image-comparision-header" style="text-align: {{ alignment }};">
+  <div class="image-comparision-header text-align-{{ alignment }}">
     <h2 class="header-{{ header_size }}">{{ section.settings.heading_text }}</h2>
     <p>{{ section.settings.description_text }}</p>
   </div>
+  
   <div
     class="
       image-comparison-flex
@@ -50,17 +57,12 @@
   >
     <div
       class="image-comparison-left{% if width == '100' %} is-full-width{% endif %}"
-      style="width: {{ width }}%;"
+      data-width="{{ width }}"
     >
       <div
         class="image-comparison-slider"
         id="image-comparison-{{ section.id }}"
-        style="
-          {% if image_ratio == 'square' %}aspect-ratio: 1/1;{% endif %}
-          {% if image_ratio == 'portrait' %}aspect-ratio: 3/4;{% endif %}
-          {% if image_ratio == 'landscape' %}aspect-ratio: 4/3;{% endif %}
-          {% if image_ratio == 'custom' and custom_ratio != blank %}aspect-ratio: {{ custom_ratio | replace: ':', '/' }};{% endif %}
-        "
+        data-aspect-ratio="{% if image_ratio == 'square' %}1/1{% elsif image_ratio == 'portrait' %}3/4{% elsif image_ratio == 'landscape' %}4/3{% elsif image_ratio == 'custom' and custom_ratio != blank %}{{ custom_ratio | replace: ':', '/' }}{% endif %}"
       >
         <img
           class="before-image"
@@ -69,7 +71,6 @@
           loading="lazy"
           width="800"
           height="600"
-          style="z-index:1;"
         >
         <img
           class="after-image"
@@ -78,7 +79,6 @@
           loading="lazy"
           width="800"
           height="600"
-          style="z-index:2; position:absolute; top:0; left:0; height:100%; width:100%;"
         >
         {% if show_text %}
           <span class="image-comparison-label before">BEFORE</span>
@@ -95,25 +95,19 @@
         </div>
       </div>
     </div>
-    <div
-      class="image-content-wrapper{% if width == '100' %} is-full-width{% endif %}"
-      style="{% if width != '100' %}width: calc(100% - {{ width }}%);{% endif %}"
-    >
-      <div
-        class="image-comparison-top"
-      >
+    
+    <div class="image-content-wrapper{% if width == '100' %} is-full-width{% endif %}" data-content-width="{{ width }}">
+      <div class="image-comparison-top">
         {% for block in section.blocks %}
           {% case block.type %}
             {% when 'heading' %}
               <div class="ip-content-block">
                 <h2
                   class="image-comparison-heading"
-                  style="
-                    font-size: {{ block.settings.font_size }}px; margin-top: 0;
-                    font-weight: {{ block.settings.font_weight }};
-                    margin-bottom: {{ block.settings.header_spacing_bottom }}px;
-                    {% if block.settings.header_transform %}text-transform: uppercase;{% endif %}
-                  "
+                  data-font-size="{{ block.settings.font_size }}"
+                  data-font-weight="{{ block.settings.font_weight }}"
+                  data-spacing="{{ block.settings.header_spacing_bottom }}"
+                  {% if block.settings.header_transform %}data-transform="uppercase"{% endif %}
                 >
                   {{ block.settings.heading_text }}
                 </h2>
@@ -122,11 +116,9 @@
               <div class="ip-content-block">
                 <div
                   class="image-comparison-description"
-                  style="
-                    font-size: {{ block.settings.font_size }}px;
-                    font-weight: {{ block.settings.font_weight }};
-                    margin-bottom: {{ block.settings.spacing_bottom }}px;
-                  "
+                  data-font-size="{{ block.settings.font_size }}"
+                  data-font-weight="{{ block.settings.font_weight }}"
+                  data-spacing="{{ block.settings.spacing_bottom }}"
                 >
                   {{ block.settings.description_text }}
                 </div>
@@ -135,12 +127,10 @@
               <div class="ip-content-block">
                 <p
                   class="image-comparison-subheading"
-                  style="
-                    font-size: {{ block.settings.font_size }}px;
-                    font-weight: {{ block.settings.font_weight }};
-                    {% if block.settings.uppercase %}text-transform: uppercase;{% endif %}
-                    margin-bottom: {{ block.settings.spacing_bottom }}px;
-                  "
+                  data-font-size="{{ block.settings.font_size }}"
+                  data-font-weight="{{ block.settings.font_weight }}"
+                  data-spacing="{{ block.settings.spacing_bottom }}"
+                  {% if block.settings.uppercase %}data-transform="uppercase"{% endif %}
                 >
                   {{ block.settings.subheading_text }}
                 </p>
@@ -150,27 +140,18 @@
                 <a
                   href="{{ block.settings.button_url }}"
                   class="image-comparison-btn__{{ block.settings.button_type }}"
-                  style="
-                    {% if block.settings.button_type == 'primary' %}
-                      background: {{ block.settings.button_color }};
-                      color: {{ block.settings.button_text_color }};
-                    {% endif %}
-                    {% if block.settings.button_type == 'outline' %}
-                      background: #fff;
-                      color: #111;
-                    {% endif %}
-                    {% if block.settings.button_type == 'link' %}
-                      color: #111;
-                    {% endif %}
-                    margin-bottom: {{ block.settings.spacing_bottom }}px;
-                  "
+                  data-spacing="{{ block.settings.spacing_bottom }}"
+                  {% if block.settings.button_type == 'primary' %}
+                    data-bg-color="{{ block.settings.button_color }}"
+                    data-text-color="{{ block.settings.button_text_color }}"
+                  {% endif %}
                 >
                   {{ block.settings.button_label }}
                 </a>
               </div>
             {% when 'product' %}
               <div class="ip-content-block product-block">
-                <div class="image-comparision-wrapper" style="margin-bottom: {{ block.settings.spacing_bottom }}px;">
+                <div class="image-comparision-wrapper" data-spacing="{{ block.settings.spacing_bottom }}">
                   <img
                     src="{{ block.settings.product.featured_image | image_url }}"
                     alt="{{ block.settings.product.title }}"
@@ -182,7 +163,6 @@
                     <a
                       href="{{ block.settings.product.url }}"
                       class="image-comparison-btn__{{ block.settings.button_type }}"
-                      style="text-decoration: none; color: inherit;"
                     >
                       {{ block.settings.product.title | default: 'Example prodcut title' }}
                     </a>
@@ -196,230 +176,6 @@
     </div>
   </div>
 </div>
-
-<style>
-  .section-width-full {
-    width: 100%;
-  }
-  .image-comparison-flex.flex-row {
-    flex-direction: row;
-  }
-  .image-comparison-flex.flex-row-reverse {
-    flex-direction: row-reverse;
-  }
-  .image-comparison-section {
-    {% if page_width == 'stretch' %}
-      padding-left: 20px;
-      padding-right: 20px;
-    {% else %}
-    padding: 0 3rem;
-    {% endif %}
-  }
-  .header-small {
-    font-size: 2rem;
-  }
-  .header-medium {
-    font-size: 2.5rem;
-  }
-  .header-large {
-    font-size: 3.5rem;
-  }
-  .image-comparison-flex {
-    justify-content: center;
-    display: flex;
-    align-items: stretch;
-    flex-wrap: wrap;
-    margin: 0 auto;
-    width: 100%;
-    min-height: 400px;
-  }
-  .image-content-wrapper {
-    word-wrap: break-word;
-    width: calc(100% - {{ width }}%);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0 20px;
-  }
-  .image-content-wrapper.full-width {
-    width: 100%;
-    padding: 0;
-  }
-  .image-comparison-left {
-    min-width: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .image-comparision-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .image-comparison-slider {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 350px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    overflow: hidden;
-  }
-  .image-comparison-slider .before-image,
-  .image-comparison-slider .after-image {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .image-comparison-slider .after-image {
-    width: 50%;
-    overflow: hidden;
-    z-index: 2;
-    clip-path: inset(0 50% 0 0);
-  }
-  .image-comparison-slider img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .image-comparison-slider .slider-bar {
-    position: absolute;
-    top: 0; bottom: 0;
-    left: 50%;
-    width: 3px;
-    background: #fff;
-    box-shadow: 0 0 8px rgba(0,0,0,0.12);
-    z-index: 10;
-    cursor: ew-resize;
-    transition: background 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-  }
-  .slider-bar-button__pull {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 36px;
-    height: 48px;
-    border: none;
-    border-radius: 30px;
-    background: #fff;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
-    border: 1.5px solid #eee;
-    z-index: 11;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    pointer-events: auto;
-    padding: 0;
-  }
-  .image-comparison-label {
-    position: absolute;
-    background: #fff;
-    color: #222;
-    font-weight: 600;
-    font-size: 16px;
-    border-radius: 999px;
-    padding: 8px 24px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
-    z-index: 20;
-    letter-spacing: 1px;
-    top: 32px;
-  }
-  .image-comparison-label.before {
-    left: 32px;
-  }
-  .image-comparison-label.after {
-    right: 32px;
-    bottom: 32px;
-    top: auto;
-  }
-  @media (max-width: 900px) {
-    .image-comparison-left, .image-content-wrapper { min-width: 0; flex: 1 1 100%; }
-    .image-comparison-label.before { left: 16px; top: 16px; }
-    .image-comparison-label.after { right: 16px; bottom: 16px; }
-  }
-  .image-comparison-heading {
-    margin: 0;
-  }
-  .image-comparison-description {
-    font-size: 1.5rem;
-    color: #444;
-  }
-  .image-comparison-btn__primary {
-    display: inline-block;
-    background: #111;
-    color: #fff;
-    font-weight: 600;
-    border: none;
-    border-radius: 999px;
-    padding: 12px 40px;
-    font-size: 1.6rem;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.2s;
-    margin-top: 8px;
-  }
-  .image-comparison-btn__primary
-  .image-comparison-btn:hover {
-    background: #222;
-  }
-  .image-comparison-btn__outline {
-    display: inline-block;
-    padding: 16px 40px;
-    background: #fff;
-    color: #111;
-    font-weight: 600;
-    border: 1px solid #111;
-    text-decoration: none;
-    border-radius: 30px;
-  }
-  .image-comparison-btn__link {
-    display: inline-block;
-    color: #111;
-    font-weight: 600;
-    border: none;
-  }
-  .image-comparison-flex.is-full-width {
-    flex-direction: column;
-  }
-  .image-comparison-left.is-full-width {
-    order: 2;
-  }
-  .image-content-wrapper.is-full-width {
-    order: 1;
-    width: 100%;
-  }
-  .image-comparison-flex.is-full-width.position-right .image-comparison-left.is-full-width {
-    order: 1;
-  }
-  .image-comparison-flex.is-full-width.position-right .image-content-wrapper.is-full-width {
-    order: 2;
-    width: 100%;
-  }
-     .image-content-wrapper.is-full-width {
-     width: 100% !important;
-   }
-   .image-comparison-top {
-     display: flex;
-     flex-direction: column;
-     height: 100%;
-   }
-   .ip-content-block.product-block {
-     margin-top: auto;
-   }
-</style>
 
 <script src="{{ 'image-comparison.js' | asset_url }}" defer></script>
 

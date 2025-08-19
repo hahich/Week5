@@ -1,0 +1,124 @@
+/* ===== IMAGE COMPARISON DYNAMIC STYLES ===== */
+
+/* Dynamic width styles */
+.image-content-wrapper[style*="width: calc(100% - 50%)"] {
+  width: calc(100% - 50%) !important;
+}
+
+.image-content-wrapper[style*="width: calc(100% - 66%)"] {
+  width: calc(100% - 66%) !important;
+}
+
+.image-content-wrapper[style*="width: calc(100% - 75%)"] {
+  width: calc(100% - 75%) !important;
+}
+
+/* Dynamic aspect ratio styles */
+.image-comparison-slider[style*="aspect-ratio: 1/1"] {
+  aspect-ratio: 1/1;
+}
+
+.image-comparison-slider[style*="aspect-ratio: 3/4"] {
+  aspect-ratio: 3/4;
+}
+
+.image-comparison-slider[style*="aspect-ratio: 4/3"] {
+  aspect-ratio: 4/3;
+}
+
+/* Dynamic width percentage styles */
+.image-comparison-left[style*="width: 50%"] {
+  width: 50%;
+}
+
+.image-comparison-left[style*="width: 66%"] {
+  width: 66%;
+}
+
+.image-comparison-left[style*="width: 75%"] {
+  width: 75%;
+}
+
+.image-comparison-left[style*="width: 100%"] {
+  width: 100%;
+}
+
+/* Button color overrides */
+.image-comparison-btn__primary[style*="background:"] {
+  background: var(--button-bg-color) !important;
+  color: var(--button-text-color) !important;
+}
+
+.image-comparison-btn__outline[style*="background: #fff"] {
+  background: #fff !important;
+  color: #111 !important;
+}
+
+.image-comparison-btn__link[style*="color: #111"] {
+  color: #111 !important;
+}
+
+/* Font size and weight overrides */
+.image-comparison-heading[style*="font-size:"] {
+  font-size: var(--heading-font-size) !important;
+}
+
+.image-comparison-heading[style*="font-weight:"] {
+  font-weight: var(--heading-font-weight) !important;
+}
+
+.image-comparison-description[style*="font-size:"] {
+  font-size: var(--description-font-size) !important;
+}
+
+.image-comparison-description[style*="font-weight:"] {
+  font-weight: var(--description-font-weight) !important;
+}
+
+.image-comparison-subheading[style*="font-size:"] {
+  font-size: var(--subheading-font-size) !important;
+}
+
+.image-comparison-subheading[style*="font-weight:"] {
+  font-weight: var(--subheading-font-weight) !important;
+}
+
+/* Spacing overrides */
+.image-comparison-heading[style*="margin-bottom:"] {
+  margin-bottom: var(--heading-spacing) !important;
+}
+
+.image-comparison-description[style*="margin-bottom:"] {
+  margin-bottom: var(--description-spacing) !important;
+}
+
+.image-comparison-subheading[style*="margin-bottom:"] {
+  margin-bottom: var(--subheading-spacing) !important;
+}
+
+.image-comparison-btn__primary[style*="margin-bottom:"],
+.image-comparison-btn__outline[style*="margin-bottom:"],
+.image-comparison-btn__link[style*="margin-bottom:"] {
+  margin-bottom: var(--button-spacing) !important;
+}
+
+.image-comparision-wrapper[style*="margin-bottom:"] {
+  margin-bottom: var(--product-spacing) !important;
+}
+
+/* CSS Variables for dynamic styles */
+:root {
+  --button-bg-color: #111;
+  --button-text-color: #fff;
+  --heading-font-size: 32px;
+  --heading-font-weight: 700;
+  --description-font-size: 16px;
+  --description-font-weight: 400;
+  --subheading-font-size: 14px;
+  --subheading-font-weight: 700;
+  --heading-spacing: 10px;
+  --description-spacing: 10px;
+  --subheading-spacing: 10px;
+  --button-spacing: 10px;
+  --product-spacing: 10px;
+} 

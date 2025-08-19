@@ -6,6 +6,29 @@
   --focused-base-outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
   --focused-base-outline-offset: 0.3rem;
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+  
+  /* Section specific variables */
+  --section-padding-horizontal: 3rem;
+  --section-padding-horizontal-stretch: 20px;
+  --section-border-radius: 5px;
+  --section-transition-duration: 0.2s;
+  --section-transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* FAQ specific variables */
+  --faq-border-color: rgba(var(--color-foreground), 0.08);
+  --faq-hover-bg: rgba(var(--color-foreground), 0.04);
+  --faq-toggle-size: 2rem;
+  --faq-answer-max-height: 500px;
+  
+  /* Image comparison specific variables */
+  --image-comparison-min-height: 400px;
+  --image-comparison-slider-min-height: 350px;
+  --image-comparison-slider-width: 300px;
+  --slider-bar-width: 3px;
+  --slider-button-size: 36px;
+  --slider-button-height: 48px;
+  --label-padding: 8px 24px;
+  --label-border-radius: 999px;
 }
 
 .product-card-wrapper .card,
