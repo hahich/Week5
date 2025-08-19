@@ -53,46 +53,43 @@
         "remove_default_space": false
       }
     },
-    "product_testimonials_pkMzha": {
+    "product_testimonials_QCxrke": {
       "type": "product-testimonials",
       "blocks": {
-        "testimonial_VJGBfQ": {
+        "testimonial_eB4tJc": {
           "type": "testimonial",
           "settings": {
-            "author_image": "shopify://shop_images/tes_home2_1_1.png",
             "star_rating": 5,
-            "quote": "",
-            "product": "apple-iphone-12-pro-max-128gb-unlocked",
+            "quote": "<p>You can add text content from press comments, reviews, or testimonials here.</p>",
+            "product": "",
             "author_name": "Author's name"
           }
         },
-        "testimonial_citt3n": {
+        "testimonial_X6Wq9L": {
           "type": "testimonial",
           "settings": {
-            "author_image": "shopify://shop_images/tes_home2_1_1.png",
             "star_rating": 5,
-            "quote": "",
-            "product": "apple-iphone-12-pro-max-128gb-unlocked",
+            "quote": "<p>You can add text content from press comments, reviews, or testimonials here.</p>",
+            "product": "",
             "author_name": "Author's name"
           }
         },
-        "testimonial_n4L7GT": {
+        "testimonial_LtnUK9": {
           "type": "testimonial",
           "settings": {
-            "author_image": "shopify://shop_images/tes_home2_1_1.png",
             "star_rating": 5,
-            "quote": "",
-            "product": "apple-iphone-12-pro-max-128gb-unlocked",
+            "quote": "<p>You can add text content from press comments, reviews, or testimonials here.</p>",
+            "product": "",
             "author_name": "Author's name"
           }
         }
       },
       "block_order": [
-        "testimonial_VJGBfQ",
-        "testimonial_citt3n",
-        "testimonial_n4L7GT"
+        "testimonial_eB4tJc",
+        "testimonial_X6Wq9L",
+        "testimonial_LtnUK9"
       ],
-      "name": "Product Testimonials",
+      "name": "t:sections.product-testimonials.presets.name",
       "settings": {
         "page_width": "fluid",
         "color_scheme": "",
@@ -105,12 +102,12 @@
         "image_position": "left",
         "image_width": 30,
         "framed": false,
-        "rate_color": "#ffa500",
+        "rate_color": "#FFA500",
         "items_per_row": 2,
         "column_gap": 24,
         "show_next_back": true,
         "pagination": "dots",
-        "infinite_slider": true,
+        "infinite_slider": false,
         "auto_change_slides": false,
         "change_slides_every": 4,
         "reveal_next_slide": false,
@@ -188,7 +185,7 @@
   },
   "order": [
     "fa_qs_dUd7yz",
-    "product_testimonials_pkMzha",
+    "product_testimonials_QCxrke",
     "image_comparison_BPLBJD"
   ]
 }
