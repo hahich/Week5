@@ -23,12 +23,10 @@
     header-size-{{ section.settings.header_size }}
     color-{{ section_color_scheme }}
   "
-  style="padding-top:{{ section.settings.padding_top }}px; padding-bottom:{{ section.settings.padding_bottom }}px; --testimonial-image-width: {{ section.settings.image_width }}%;"
 >
   {% if section.settings.heading != blank %}
     <h2
       class="testimonial-heading text-align-{{ section.settings.alignment }}"
-      style="font-weight: 600;"
     >
       {{ section.settings.heading }}
     </h2>
@@ -50,7 +48,6 @@
     data-reveal-next-slide="{{ section.settings.reveal_next_slide }}"
     data-column-gap="{{ section.settings.column_gap }}"
     data-infinite="{{ section.settings.infinite_slider }}"
-    style="--items-per-row: {{ section.settings.items_per_row }}; --mobile-items-per-row: {{ section.settings.mobile_items_per_row }}; --column-gap: {{ section.settings.column_gap }}px;"
   >
     <div class="swiper-wrapper">
       {% for block in section.blocks %}
@@ -151,6 +148,19 @@
     {% endif %}
   </div>
 </div>
+
+{% style %}
+  .product-testimonials-section {
+    padding-top:{{ section.settings.padding_top }}px; 
+    padding-bottom:{{ section.settings.padding_bottom }}px; 
+    --testimonial-image-width: {{ section.settings.image_width }}%;
+  }
+  .testimonial-carousel {
+    --items-per-row: {{ section.settings.items_per_row }}; 
+    --mobile-items-per-row: {{ section.settings.mobile_items_per_row }}; 
+    --column-gap: {{ section.settings.column_gap }}px;
+  }
+{% endstyle %}
 
 <script src="{{ 'section-carousel.js' | asset_url }}" defer></script>
 
