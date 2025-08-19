@@ -214,10 +214,11 @@
 }
 
 .image-comparison-slider .after-image {
-  width: 50%;
+  width: 100%;
   overflow: hidden;
   z-index: 2;
-  clip-path: inset(0 50% 0 0);
+  /* Hide left 50% by default so the handle shows a single divider line */
+  clip-path: inset(0 0 0 50%);
 }
 
 .image-comparison-slider img {

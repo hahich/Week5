@@ -34,14 +34,13 @@
     color-{{ section_color_scheme }}
     section-padding
   "
-  style="padding-top:{{ padding_top }}px; padding-bottom:{{ padding_bottom }}px; max-width: {{ calculated_width }}; margin: 0 auto;"
 >
   {% if section.settings.heading != blank %}
     <h2 data-font-weight="{{ section.settings.header_weight }}">
       {{ section.settings.heading }}
     </h2>
   {% endif %}
-  
+
   {% if section.settings.description != blank %}
     <div class="section-description">
       {{ section.settings.description }}
@@ -64,6 +63,15 @@
     {% endfor %}
   </div>
 </div>
+
+{% style %}
+  .faq-section {
+    padding-top:{{ padding_top }}px; 
+    padding-bottom:{{ padding_bottom }}px; 
+    max-width: {{ calculated_width }}; 
+    margin: 0 auto;
+  }
+{% endstyle %}
 
 <script src="{{ 'faq-accordion.js' | asset_url }}" defer></script>
 
@@ -204,21 +212,21 @@
           "type": "faq",
           "settings": {
             "question": "t:sections.faqs.presets.items.question_1",
-            "answer": "t:sections.faqs.presets.items.answer_1",
+            "answer": "t:sections.faqs.presets.items.answer_1"
           }
         },
         {
           "type": "faq",
           "settings": {
             "question": "t:sections.faqs.presets.items.question_2",
-            "answer": "t:sections.faqs.presets.items.answer_2",
+            "answer": "t:sections.faqs.presets.items.answer_2"
           }
         },
         {
           "type": "faq",
           "settings": {
             "question": "t:sections.faqs.presets.items.question_3",
-            "answer": "t:sections.faqs.presets.items.answer_3",
+            "answer": "t:sections.faqs.presets.items.answer_3"
           }
         }
       ]
