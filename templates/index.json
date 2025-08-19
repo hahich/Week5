@@ -91,7 +91,7 @@
       ],
       "name": "t:sections.product-testimonials.presets.name",
       "settings": {
-        "page_width": "default",
+        "page_width": "fluid",
         "color_scheme": "",
         "heading": "What our customers say",
         "description": "",
