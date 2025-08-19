@@ -59,18 +59,20 @@
         "testimonial_VJGBfQ": {
           "type": "testimonial",
           "settings": {
+            "author_image": "shopify://shop_images/tes_home2_1_1.png",
             "star_rating": 5,
             "quote": "",
-            "product": "",
+            "product": "apple-iphone-12-pro-max-128gb-unlocked",
             "author_name": "Author's name"
           }
         },
         "testimonial_citt3n": {
           "type": "testimonial",
           "settings": {
+            "author_image": "shopify://shop_images/tes_home2_1_1.png",
             "star_rating": 5,
             "quote": "",
-            "product": "",
+            "product": "apple-iphone-12-pro-max-128gb-unlocked",
             "author_name": "Author's name"
           }
         },
