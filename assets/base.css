@@ -29,6 +29,16 @@
   --slider-button-height: 48px;
   --label-padding: 8px 24px;
   --label-border-radius: 999px;
+
+  /* flexx */
+  --flex: flex;
+  --block: block;
+  --inline-block: inline-block;
+  --none: none;
+
+  /* color */
+  --color-dark: #111111;
+  --color-border: #ebebeb;
 }
 
 .product-card-wrapper .card,

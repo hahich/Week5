@@ -1,412 +1,418 @@
-  {% assign section_color_scheme = section.settings.color_scheme | default: settings.color_scheme %}
-  {% assign page_width = section.settings.page_width %}
-  {% if page_width == blank or page_width == 'default' %}
-    {% assign page_width = settings.page_width | default: 'default' %}
-  {% endif %}
+{% assign section_color_scheme = section.settings.color_scheme | default: settings.color_scheme %}
+{% assign page_width = section.settings.page_width %}
+{% if page_width == blank or page_width == 'default' %}
+  {% assign page_width = settings.page_width | default: 'default' %}
+{% endif %}
 
-  {% assign calculated_width = '800px' %}
-  {% if page_width == 'fluid' %}
-    {% assign calculated_width = settings.page_width | default: '1200px' | append: 'px' %}
-  {% elsif page_width == 'stretch' %}
-    {% assign stretch_width = settings.page_width | default: '1200px' | append: 'px' %}
-    {% assign calculated_width = stretch_width | minus: 40 | append: 'px' %}
-  {% elsif page_width == 'full' %}
-    {% assign calculated_width = '100vw' %}
+{% assign calculated_width = '800px' %}
+{% if page_width == 'fluid' %}
+  {% assign calculated_width = settings.page_width | default: '1200px' | append: 'px' %}
+{% elsif page_width == 'stretch' %}
+  {% assign stretch_width = settings.page_width | default: '1200px' | append: 'px' %}
+  {% assign calculated_width = stretch_width | minus: 40 | append: 'px' %}
+{% elsif page_width == 'full' %}
+  {% assign calculated_width = '100vw' %}
+{% endif %}
+
+<div
+  class="
+    product-testimonials-section
+    section-width-{{ page_width }}
+    section-padding
+    {% if section.settings.remove_default_space %}no-default-space{% endif %}
+    header-size-{{ section.settings.header_size }}
+    color-{{ section_color_scheme }}
+  "
+  style="padding-top:{{ section.settings.padding_top }}px; padding-bottom:{{ section.settings.padding_bottom }}px; --testimonial-image-width: {{ section.settings.image_width }}%;"
+>
+  {% if section.settings.heading != blank %}
+    <h2
+      class="testimonial-heading text-align-{{ section.settings.alignment }}"
+      style="font-weight: 600;"
+    >
+      {{ section.settings.heading }}
+    </h2>
+  {% endif %}
+  {% if section.settings.description != blank %}
+    <div class="testimonial-description text-align-{{ section.settings.alignment }}">
+      {{ section.settings.description }}
+    </div>
   {% endif %}
 
   <div
-    class="
-      product-testimonials-section
-      section-width-{{ page_width }}
-      section-padding
-      {% if section.settings.remove_default_space %}no-default-space{% endif %}
-      header-size-{{ section.settings.header_size }}
-      color-{{ section_color_scheme }}
-    "
-    style="padding-top:{{ section.settings.padding_top }}px; padding-bottom:{{ section.settings.padding_bottom }}px; --testimonial-image-width: {{ section.settings.image_width }}%;"
+    class="testimonial-carousel swiper"
+    data-items-per-row="{{ section.settings.items_per_row }}"
+    data-mobile-items-per-row="{{ section.settings.mobile_items_per_row }}"
+    data-autoplay="{{ section.settings.auto_change_slides }}"
+    data-autoplay-speed="{{ section.settings.change_slides_every }}"
+    data-show-next-back="{{ section.settings.show_next_back }}"
+    data-pagination="{{ section.settings.pagination }}"
+    data-reveal-next-slide="{{ section.settings.reveal_next_slide }}"
+    data-column-gap="{{ section.settings.column_gap }}"
+    data-infinite="{{ section.settings.infinite_slider }}"
+    style="--items-per-row: {{ section.settings.items_per_row }}; --mobile-items-per-row: {{ section.settings.mobile_items_per_row }}; --column-gap: {{ section.settings.column_gap }}px;"
   >
-    {% if section.settings.heading != blank %}
-      <h2
-        class="testimonial-heading text-align-{{ section.settings.alignment }}"
-        style="font-weight: 600;"
-      >
-        {{ section.settings.heading }}
-      </h2>
-    {% endif %}
-    {% if section.settings.description != blank %}
-      <div class="testimonial-description text-align-{{ section.settings.alignment }}">
-        {{ section.settings.description }}
-      </div>
-    {% endif %}
-
-    <div
-      class="testimonial-carousel swiper"
-      data-items-per-row="{{ section.settings.items_per_row }}"
-      data-mobile-items-per-row="{{ section.settings.mobile_items_per_row }}"
-      data-autoplay="{{ section.settings.auto_change_slides }}"
-      data-autoplay-speed="{{ section.settings.change_slides_every }}"
-      data-show-next-back="{{ section.settings.show_next_back }}"
-      data-pagination="{{ section.settings.pagination }}"
-      data-reveal-next-slide="{{ section.settings.reveal_next_slide }}"
-      data-column-gap="{{ section.settings.column_gap }}"
-      data-infinite="{{ section.settings.infinite_slider }}"
-      style="--items-per-row: {{ section.settings.items_per_row }}; --mobile-items-per-row: {{ section.settings.mobile_items_per_row }}; --column-gap: {{ section.settings.column_gap }}px;"
-    >
-      <div class="swiper-wrapper">
-        {% for block in section.blocks %}
-          <div
-            class="swiper-slide testimonial-item image-{{ section.settings.image_position }} {% if section.settings.framed %}framed{% endif %}"
-          >
-            {% if section.settings.show_image %}
-              <div class="testimonial-image">
-                {% if block.settings.author_image != blank %}
-                  <img
-                    src="{{ block.settings.author_image | img_url: '300x300' }}"
-                    alt="{{ block.settings.author_name }}"
-                    width="150"
-                    height="150"
-                  >
-                {% else %}
-                  <div class="testimonial-image-placeholder"></div>
-                {% endif %}
-              </div>
-            {% endif %}
-            <div class="testimonial-content">
-              <div class="testimonial-rating">
-                {% for i in (1..block.settings.star_rating) %}
-                  <span class="star">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div
+          class="swiper-slide testimonial-item image-{{ section.settings.image_position }} {% if section.settings.framed %}framed{% endif %}"
+        >
+          {% if section.settings.show_image %}
+            <div class="testimonial-image">
+              {% if block.settings.author_image != blank %}
+                <img
+                  src="{{ block.settings.author_image | img_url: '300x300' }}"
+                  alt="{{ block.settings.author_name }}"
+                  width="150"
+                  height="150"
+                >
+              {% else %}
+                <div class="testimonial-image-placeholder">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 525.5 525.5" class="placeholder-image ">
+                    <path d="M324.5 212.7H203c-1.6 0-2.8 1.3-2.8 2.8V308c0 1.6 1.3 2.8 2.8 2.8h121.6c1.6 0 2.8-1.3 2.8-2.8v-92.5c0-1.6-1.3-2.8-2.9-2.8zm1.1 95.3c0 .6-.5 1.1-1.1 1.1H203c-.6 0-1.1-.5-1.1-1.1v-92.5c0-.6.5-1.1 1.1-1.1h121.6c.6 0 1.1.5 1.1 1.1V308z"></path><path d="M210.4 299.5H240v.1s.1 0 .2-.1h75.2v-76.2h-105v76.2zm1.8-7.2l20-20c1.6-1.6 3.8-2.5 6.1-2.5s4.5.9 6.1 2.5l1.5 1.5 16.8 16.8c-12.9 3.3-20.7 6.3-22.8 7.2h-27.7v-5.5zm101.5-10.1c-20.1 1.7-36.7 4.8-49.1 7.9l-16.9-16.9 26.3-26.3c1.6-1.6 3.8-2.5 6.1-2.5s4.5.9 6.1 2.5l27.5 27.5v7.8zm-68.9 15.5c9.7-3.5 33.9-10.9 68.9-13.8v13.8h-68.9zm68.9-72.7v46.8l-26.2-26.2c-1.9-1.9-4.5-3-7.3-3s-5.4 1.1-7.3 3l-26.3 26.3-.9-.9c-1.9-1.9-4.5-3-7.3-3s-5.4 1.1-7.3 3l-18.8 18.8V225h101.4z"></path><path d="M232.8 254c4.6 0 8.3-3.7 8.3-8.3s-3.7-8.3-8.3-8.3-8.3 3.7-8.3 8.3 3.7 8.3 8.3 8.3zm0-14.9c3.6 0 6.6 2.9 6.6 6.6s-2.9 6.6-6.6 6.6-6.6-2.9-6.6-6.6 3-6.6 6.6-6.6z"></path>
+                  </svg>
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+          <div class="testimonial-content">
+            <div class="testimonial-rating">
+              {% for i in (1..block.settings.star_rating) %}
+                <span class="star">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.96853 3.78143C10.0011 3.88335 10.0043 3.98868 9.9783 4.0974C9.95226 4.20612 9.89692 4.29785 9.81228 4.37259L7.63455 6.37033L8.27908 9.32616C8.29861 9.43488 8.28885 9.5402 8.24978 9.64213C8.21723 9.74405 8.15864 9.82899 8.074 9.89694C7.98286 9.96489 7.8852 9.99887 7.78103 9.99887C7.67687 10.0057 7.57921 9.98188 7.48806 9.92752L4.99783 8.36806L2.5076 9.92752C2.46853 9.94791 2.42296 9.96489 2.37088 9.97848C2.3253 9.99207 2.27973 9.99887 2.23416 9.99887C2.18207 9.99887 2.12674 9.98868 2.06814 9.96829C2.01606 9.9547 1.96723 9.93092 1.92166 9.89694C1.83702 9.82899 1.77517 9.74405 1.73611 9.64213C1.70356 9.5402 1.69705 9.43488 1.71658 9.32616L2.36111 6.37033L0.183377 4.37259C0.0987413 4.29785 0.0434028 4.20612 0.0173611 4.0974C-0.00868056 3.98868 -0.00542535 3.88335 0.0271267 3.78143C0.0596788 3.67271 0.115017 3.58437 0.193142 3.51642C0.277778 3.44847 0.372179 3.4077 0.476345 3.39411L3.36697 3.12911L4.50955 0.336353C4.54861 0.234428 4.61372 0.152888 4.70486 0.0917327C4.79601 0.0305776 4.89366 0 4.99783 0C5.102 0 5.19965 0.0305776 5.2908 0.0917327C5.38194 0.152888 5.44705 0.234428 5.48611 0.336353L6.62869 3.12911L9.51931 3.39411C9.62348 3.4077 9.71463 3.44847 9.79275 3.51642C9.87739 3.58437 9.93598 3.67271 9.96853 3.78143Z" fill="{{ section.settings.rate_color }}"/>
+                  </svg>
+                </span>
+              {% endfor %}
+              {% for i in (1..5) %}
+                {% if i > block.settings.star_rating %}
+                  <span class="star inactive">
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9.96853 3.78143C10.0011 3.88335 10.0043 3.98868 9.9783 4.0974C9.95226 4.20612 9.89692 4.29785 9.81228 4.37259L7.63455 6.37033L8.27908 9.32616C8.29861 9.43488 8.28885 9.5402 8.24978 9.64213C8.21723 9.74405 8.15864 9.82899 8.074 9.89694C7.98286 9.96489 7.8852 9.99887 7.78103 9.99887C7.67687 10.0057 7.57921 9.98188 7.48806 9.92752L4.99783 8.36806L2.5076 9.92752C2.46853 9.94791 2.42296 9.96489 2.37088 9.97848C2.3253 9.99207 2.27973 9.99887 2.23416 9.99887C2.18207 9.99887 2.12674 9.98868 2.06814 9.96829C2.01606 9.9547 1.96723 9.93092 1.92166 9.89694C1.83702 9.82899 1.77517 9.74405 1.73611 9.64213C1.70356 9.5402 1.69705 9.43488 1.71658 9.32616L2.36111 6.37033L0.183377 4.37259C0.0987413 4.29785 0.0434028 4.20612 0.0173611 4.0974C-0.00868056 3.98868 -0.00542535 3.88335 0.0271267 3.78143C0.0596788 3.67271 0.115017 3.58437 0.193142 3.51642C0.277778 3.44847 0.372179 3.4077 0.476345 3.39411L3.36697 3.12911L4.50955 0.336353C4.54861 0.234428 4.61372 0.152888 4.70486 0.0917327C4.79601 0.0305776 4.89366 0 4.99783 0C5.102 0 5.19965 0.0305776 5.2908 0.0917327C5.38194 0.152888 5.44705 0.234428 5.48611 0.336353L6.62869 3.12911L9.51931 3.39411C9.62348 3.4077 9.71463 3.44847 9.79275 3.51642C9.87739 3.58437 9.93598 3.67271 9.96853 3.78143Z" fill="{{ section.settings.rate_color }}"/>
+                      <path d="M9.96853 3.78143C10.0011 3.88335 10.0043 3.98868 9.9783 4.0974C9.95226 4.20612 9.89692 4.29785 9.81228 4.37259L7.63455 6.37033L8.27908 9.32616C8.29861 9.43488 8.28885 9.5402 8.24978 9.64213C8.21723 9.74405 8.15864 9.82899 8.074 9.89694C7.98286 9.96489 7.8852 9.99887 7.78103 9.99887C7.67687 10.0057 7.57921 9.98188 7.48806 9.92752L4.99783 8.36806L2.5076 9.92752C2.46853 9.94791 2.42296 9.96489 2.37088 9.97848C2.3253 9.99207 2.27973 9.99887 2.23416 9.99887C2.18207 9.99887 2.12674 9.98868 2.06814 9.96829C2.01606 9.9547 1.96723 9.93092 1.92166 9.89694C1.83702 9.82899 1.77517 9.74405 1.73611 9.64213C1.70356 9.5402 1.69705 9.43488 1.71658 9.32616L2.36111 6.37033L0.183377 4.37259C0.0987413 4.29785 0.0434028 4.20612 0.0173611 4.0974C-0.00868056 3.98868 -0.00542535 3.88335 0.0271267 3.78143C0.0596788 3.67271 0.115017 3.58437 0.193142 3.51642C0.277778 3.44847 0.372179 3.4077 0.476345 3.39411L3.36697 3.12911L4.50955 0.336353C4.54861 0.234428 4.61372 0.152888 4.70486 0.0917327C4.79601 0.0305776 4.89366 0 4.99783 0C5.102 0 5.19965 0.0305776 5.2908 0.0917327C5.38194 0.152888 5.44705 0.234428 5.48611 0.336353L6.62869 3.12911L9.51931 3.39411C9.62348 3.4077 9.71463 3.44847 9.79275 3.51642C9.87739 3.58437 9.93598 3.67271 9.96853 3.78143Z" fill="#ccc"/>
                     </svg>
                   </span>
-                {% endfor %}
-                {% for i in (1..5) %}
-                  {% if i > block.settings.star_rating %}
-                    <span class="star inactive">
-                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.96853 3.78143C10.0011 3.88335 10.0043 3.98868 9.9783 4.0974C9.95226 4.20612 9.89692 4.29785 9.81228 4.37259L7.63455 6.37033L8.27908 9.32616C8.29861 9.43488 8.28885 9.5402 8.24978 9.64213C8.21723 9.74405 8.15864 9.82899 8.074 9.89694C7.98286 9.96489 7.8852 9.99887 7.78103 9.99887C7.67687 10.0057 7.57921 9.98188 7.48806 9.92752L4.99783 8.36806L2.5076 9.92752C2.46853 9.94791 2.42296 9.96489 2.37088 9.97848C2.3253 9.99207 2.27973 9.99887 2.23416 9.99887C2.18207 9.99887 2.12674 9.98868 2.06814 9.96829C2.01606 9.9547 1.96723 9.93092 1.92166 9.89694C1.83702 9.82899 1.77517 9.74405 1.73611 9.64213C1.70356 9.5402 1.69705 9.43488 1.71658 9.32616L2.36111 6.37033L0.183377 4.37259C0.0987413 4.29785 0.0434028 4.20612 0.0173611 4.0974C-0.00868056 3.98868 -0.00542535 3.88335 0.0271267 3.78143C0.0596788 3.67271 0.115017 3.58437 0.193142 3.51642C0.277778 3.44847 0.372179 3.4077 0.476345 3.39411L3.36697 3.12911L4.50955 0.336353C4.54861 0.234428 4.61372 0.152888 4.70486 0.0917327C4.79601 0.0305776 4.89366 0 4.99783 0C5.102 0 5.19965 0.0305776 5.2908 0.0917327C5.38194 0.152888 5.44705 0.234428 5.48611 0.336353L6.62869 3.12911L9.51931 3.39411C9.62348 3.4077 9.71463 3.44847 9.79275 3.51642C9.87739 3.58437 9.93598 3.67271 9.96853 3.78143Z" fill="#ccc"/>
-                      </svg>
-                    </span>
-                  {% endif %}
-                {% endfor %}
-              </div>
-              <div class="testimonial-author">
-                <strong>{{ block.settings.author_name }}</strong>
-                {% if section.settings.show_verified_buyer %}
-                  <span class="verified-buyer">✔ Verified Buyer</span>
                 {% endif %}
-              </div>
-              <div class="testimonial-quote">
-                {{ block.settings.quote }}
-              </div>
-              <div class="testimonial-product">
-                {% if block.settings.product != blank %}
-                  {% assign product = all_products[block.settings.product] %}
-                  <a href="{{ product.url }}" class="testimonial-product-link" target="_blank">
-                    <div class="testimonial-product-image">
-                      <img
-                        src="{{ product.featured_image | img_url: '300x300' }}"
-                        alt="{{ product.title }}"
-                        width="100"
-                        height="100"
-                      >
-                    </div>
-                    <div class="testimonial-product-info">
-                      <div class="testimonial-product-title">
-                        <a href="{{ product.url }}" class="testimonial-product-link" target="_blank">
-                          {{ product.title }}
-                        </a>
-                      </div>
-                      <div class="testimonial-product-price">{{ product.price | money }}</div>
-                    </div>
-                  </a>
-                {% else %}
-                  <div class="testimonial-product-image testimonial-image-placeholder"></div>
-                  <div class="testimonial-product-info">
-                    <div class="testimonial-product-title">Example product title</div>
-                    <div class="testimonial-product-price">$19.99</div>
+              {% endfor %}
+            </div>
+            <div class="testimonial-author">
+              <strong>{{ block.settings.author_name }}</strong>
+              {% if section.settings.show_verified_buyer %}
+                <span class="verified-buyer">✔ Verified Buyer</span>
+              {% endif %}
+            </div>
+            <div class="testimonial-quote">
+              {{ block.settings.quote }}
+            </div>
+            <div class="testimonial-product">
+              {% if block.settings.product != blank %}
+                {% assign product = all_products[block.settings.product] %}
+                <a href="{{ product.url }}" class="testimonial-product-link" target="_blank">
+                  <div class="testimonial-product-image">
+                    <img
+                      src="{{ product.featured_image | img_url: '300x300' }}"
+                      alt="{{ product.title }}"
+                      width="60"
+                      height="60"
+                    >
                   </div>
-                {% endif %}
-              </div>
+                  <div class="testimonial-product-info">
+                    <div class="testimonial-product-title">
+                      <a href="{{ product.url }}" class="testimonial-product-link" target="_blank">
+                        {{ product.title }}
+                      </a>
+                    </div>
+                    <div class="testimonial-product-price">{{ product.price | money }}</div>
+                  </div>
+                </a>
+              {% else %}
+                <div class="testimonial-product-image testimonial-image-placeholder">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 525.5 525.5" class="placeholder-image rounded">
+                    <path d="M324.5 212.7H203c-1.6 0-2.8 1.3-2.8 2.8V308c0 1.6 1.3 2.8 2.8 2.8h121.6c1.6 0 2.8-1.3 2.8-2.8v-92.5c0-1.6-1.3-2.8-2.9-2.8zm1.1 95.3c0 .6-.5 1.1-1.1 1.1H203c-.6 0-1.1-.5-1.1-1.1v-92.5c0-.6.5-1.1 1.1-1.1h121.6c.6 0 1.1.5 1.1 1.1V308z"></path><path d="M210.4 299.5H240v.1s.1 0 .2-.1h75.2v-76.2h-105v76.2zm1.8-7.2l20-20c1.6-1.6 3.8-2.5 6.1-2.5s4.5.9 6.1 2.5l1.5 1.5 16.8 16.8c-12.9 3.3-20.7 6.3-22.8 7.2h-27.7v-5.5zm101.5-10.1c-20.1 1.7-36.7 4.8-49.1 7.9l-16.9-16.9 26.3-26.3c1.6-1.6 3.8-2.5 6.1-2.5s4.5.9 6.1 2.5l27.5 27.5v7.8zm-68.9 15.5c9.7-3.5 33.9-10.9 68.9-13.8v13.8h-68.9zm68.9-72.7v46.8l-26.2-26.2c-1.9-1.9-4.5-3-7.3-3s-5.4 1.1-7.3 3l-26.3 26.3-.9-.9c-1.9-1.9-4.5-3-7.3-3s-5.4 1.1-7.3 3l-18.8 18.8V225h101.4z"></path><path d="M232.8 254c4.6 0 8.3-3.7 8.3-8.3s-3.7-8.3-8.3-8.3-8.3 3.7-8.3 8.3 3.7 8.3 8.3 8.3zm0-14.9c3.6 0 6.6 2.9 6.6 6.6s-2.9 6.6-6.6 6.6-6.6-2.9-6.6-6.6 3-6.6 6.6-6.6z"></path>
+                  </svg>
+                </div>
+                <div class="testimonial-product-info">
+                  <div class="testimonial-product-title">Example product title</div>
+                  <div class="testimonial-product-price">$19.99</div>
+                </div>
+              {% endif %}
             </div>
           </div>
-        {% endfor %}
-      </div>
-      {% if section.settings.show_next_back %}
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-      {% endif %}
-      {% if section.settings.pagination != 'disable' %}
-        <div
-          class="swiper-pagination"
-        ></div>
-      {% endif %}
+        </div>
+      {% endfor %}
     </div>
+    {% if section.settings.show_next_back %}
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    {% endif %}
+    {% if section.settings.pagination != 'disable' %}
+      <div
+        class="swiper-pagination"
+      ></div>
+    {% endif %}
+  </div>
+</div>
 
-    </div>
- 
-   <script src="{{ 'section-carousel.js' | asset_url }}" defer></script>
- 
- 
-  {% schema %}
-  {
-    "name": "t:sections.product-testimonials.name",
-    "settings": [
-      {
-        "type": "select",
-        "id": "page_width",
-        "label": "t:sections.product-testimonials.settings.page_width.label",
-        "options": [
-          { "value": "default", "label": "t:sections.product-testimonials.settings.page_width.options__1.label" },
-          { "value": "fluid", "label": "t:sections.product-testimonials.settings.page_width.options__2.label" },
-          { "value": "stretch", "label": "t:sections.product-testimonials.settings.page_width.options__3.label" },
-          { "value": "full", "label": "t:sections.product-testimonials.settings.page_width.options__4.label" }
-        ],
-        "default": "default"
-      },
-      {
-        "type": "color_scheme",
-        "id": "color_scheme",
-        "label": "t:sections.all.colors.label"
-      },
-      {
-        "type": "header",
-        "content": "t:sections.product-testimonials.settings.section_header.content"
-      },
-      {
-        "type": "text",
-        "id": "heading",
-        "label": "t:sections.product-testimonials.settings.heading.label",
-        "default": "t:sections.product-testimonials.settings.heading.default"
-      },
-      {
-        "type": "richtext",
-        "id": "description",
-        "label": "t:sections.product-testimonials.settings.description.label"
-      },
-      {
-        "type": "select",
-        "id": "header_size",
-        "label": "t:sections.product-testimonials.settings.header_size.label",
-        "options": [
-          { "value": "small", "label": "t:sections.product-testimonials.settings.header_size.options__1.label" },
-          { "value": "medium", "label": "t:sections.product-testimonials.settings.header_size.options__2.label" },
-          { "value": "large", "label": "t:sections.product-testimonials.settings.header_size.options__3.label" }
-        ],
-        "default": "medium"
-      },
-      {
-        "type": "select",
-        "id": "alignment",
-        "label": "t:sections.product-testimonials.settings.alignment.label",
-        "options": [
-          { "value": "left", "label": "t:sections.product-testimonials.settings.alignment.options__1.label" },
-          { "value": "center", "label": "t:sections.product-testimonials.settings.alignment.options__2.label" },
-          { "value": "right", "label": "t:sections.product-testimonials.settings.alignment.options__3.label" }
-        ],
-        "default": "center"
-      },
-      {
-        "type": "header",
-        "content": "t:sections.product-testimonials.settings.testimonial_settings.content"
-      },
-      {
-        "type": "checkbox",
-        "id": "show_verified_buyer",
-        "label": "t:sections.product-testimonials.settings.show_verified_buyer.label",
-        "default": true
-      },
-      {
-        "type": "checkbox",
-        "id": "show_image",
-        "label": "t:sections.product-testimonials.settings.show_image.label",
-        "default": true
-      },
-      {
-        "type": "select",
-        "id": "image_position",
-        "label": "t:sections.product-testimonials.settings.image_position.label",
-        "options": [
-          { "value": "left", "label": "t:sections.product-testimonials.settings.image_position.options__1.label" },
-          { "value": "top", "label": "t:sections.product-testimonials.settings.image_position.options__2.label" },
-          { "value": "right", "label": "t:sections.product-testimonials.settings.image_position.options__3.label" },
-          { "value": "bottom", "label": "t:sections.product-testimonials.settings.image_position.options__4.label" }
-        ],
-        "default": "left"
-      },
-      {
-        "type": "range",
-        "id": "image_width",
-        "label": "t:sections.product-testimonials.settings.image_width.label",
-        "min": 20,
-        "max": 50,
-        "step": 1,
-        "unit": "%",
-        "default": 30
-      },
-      {
-        "type": "checkbox",
-        "id": "framed",
-        "label": "t:sections.product-testimonials.settings.framed.label",
-        "default": false
-      },
-      {
-        "type": "color",
-        "id": "rate_color",
-        "label": "t:sections.product-testimonials.settings.rate_color.label",
-        "default": "#FFA500"
-      },
-      {
-        "type": "range",
-        "id": "items_per_row",
-        "label": "t:sections.product-testimonials.settings.items_per_row.label",
-        "min": 1,
-        "max": 4,
-        "step": 1,
-        "default": 2
-      },
-      {
-        "type": "range",
-        "id": "column_gap",
-        "label": "t:sections.product-testimonials.settings.column_gap.label",
-        "min": 0,
-        "max": 50,
-        "step": 2,
-        "default": 24
-      },
-      {
-        "type": "checkbox",
-        "id": "show_next_back",
-        "label": "t:sections.product-testimonials.settings.show_next_back.label",
-        "default": true
-      },
-      {
-        "type": "select",
-        "id": "pagination",
-        "label": "t:sections.product-testimonials.settings.pagination.label",
-        "options": [
-          { "value": "disable", "label": "t:sections.product-testimonials.settings.pagination.options__1.label" },
-          { "value": "dots", "label": "t:sections.product-testimonials.settings.pagination.options__2.label" },
-          { "value": "dots_mobile", "label": "t:sections.product-testimonials.settings.pagination.options__3.label" },
-          { "value": "progress", "label": "t:sections.product-testimonials.settings.pagination.options__4.label" }
-        ],
-        "default": "dots"
-      },
-      {
-        "type": "checkbox",
-        "id": "infinite_slider",
-        "label": "t:sections.product-testimonials.settings.infinite_slider.label",
-        "default": false
-      },
-      {
-        "type": "checkbox",
-        "id": "auto_change_slides",
-        "label": "t:sections.product-testimonials.settings.auto_change_slides.label",
-        "default": false
-      },
-      {
-        "type": "range",
-        "id": "change_slides_every",
-        "label": "t:sections.product-testimonials.settings.change_slides_every.label",
-        "min": 2,
-        "max": 6,
-        "step": 1,
-        "default": 4
-      },
-      {
-        "type": "checkbox",
-        "id": "reveal_next_slide",
-        "label": "t:sections.product-testimonials.settings.reveal_next_slide.label",
-        "default": false
-      },
-      {
-        "type": "header",
-        "content": "t:sections.product-testimonials.settings.mobile_settings.content"
-      },
-      {
-        "type": "range",
-        "id": "mobile_items_per_row",
-        "label": "t:sections.product-testimonials.settings.mobile_items_per_row.label",
-        "min": 1,
-        "max": 3,
-        "step": 1,
-        "default": 1
-      },
-      {
-        "type": "header",
-        "content": "t:sections.product-testimonials.settings.section_padding.content"
-      },
-      {
-        "type": "range",
-        "id": "padding_top",
-        "label": "t:sections.product-testimonials.settings.padding_top.label",
-        "min": 0,
-        "max": 100,
-        "step": 4,
-        "default": 32
-      },
-      {
-        "type": "range",
-        "id": "padding_bottom",
-        "label": "t:sections.product-testimonials.settings.padding_bottom.label",
-        "min": 0,
-        "max": 100,
-        "step": 4,
-        "default": 32
-      },
-      {
-        "type": "checkbox",
-        "id": "remove_default_space",
-        "label": "t:sections.product-testimonials.settings.remove_default_space.label",
-        "default": false
-      }
-    ],
-    "blocks": [
-      {
-        "type": "testimonial",
-        "name": "t:sections.product-testimonials.blocks.testimonial.name",
-        "settings": [
-          {
-            "type": "image_picker",
-            "id": "author_image",
-            "label": "t:sections.product-testimonials.blocks.testimonial.settings.author_image.label"
-          },
-          {
-            "type": "range",
-            "id": "star_rating",
-            "label": "t:sections.product-testimonials.blocks.testimonial.settings.star_rating.label",
-            "min": 1,
-            "max": 5,
-            "step": 1,
-            "default": 5
-          },
-          {
-            "type": "richtext",
-            "id": "quote",
-            "label": "t:sections.product-testimonials.blocks.testimonial.settings.quote.label",
-            "default": "<p>You can add text content from press comments, reviews, or testimonials here.</p>"
-          },
-          {
-            "type": "product",
-            "id": "product",
-            "label": "t:sections.product-testimonials.blocks.testimonial.settings.product.label"
-          },
-          {
-            "type": "text",
-            "id": "author_name",
-            "label": "t:sections.product-testimonials.blocks.testimonial.settings.author_name.label",
-            "default": "t:sections.product-testimonials.blocks.testimonial.settings.author_name.default"
-          }
-        ]
-      }
-    ],
-    "max_blocks": 10,
-    "presets": [
-      {
-        "name": "t:sections.product-testimonials.presets.name",
-        "category": "Text",
-        "blocks": [{ "type": "testimonial" }, { "type": "testimonial" }, { "type": "testimonial" }]
-      }
-    ]
-  }
-  {% endschema %}
+<script src="{{ 'section-carousel.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "t:sections.product-testimonials.name",
+  "settings": [
+    {
+      "type": "select",
+      "id": "page_width",
+      "label": "t:sections.product-testimonials.settings.page_width.label",
+      "options": [
+        { "value": "default", "label": "t:sections.product-testimonials.settings.page_width.options__1.label" },
+        { "value": "fluid", "label": "t:sections.product-testimonials.settings.page_width.options__2.label" },
+        { "value": "stretch", "label": "t:sections.product-testimonials.settings.page_width.options__3.label" },
+        { "value": "full", "label": "t:sections.product-testimonials.settings.page_width.options__4.label" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.product-testimonials.settings.section_header.content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.product-testimonials.settings.heading.label",
+      "default": "t:sections.product-testimonials.settings.heading.default"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "t:sections.product-testimonials.settings.description.label"
+    },
+    {
+      "type": "select",
+      "id": "header_size",
+      "label": "t:sections.product-testimonials.settings.header_size.label",
+      "options": [
+        { "value": "small", "label": "t:sections.product-testimonials.settings.header_size.options__1.label" },
+        { "value": "medium", "label": "t:sections.product-testimonials.settings.header_size.options__2.label" },
+        { "value": "large", "label": "t:sections.product-testimonials.settings.header_size.options__3.label" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "t:sections.product-testimonials.settings.alignment.label",
+      "options": [
+        { "value": "left", "label": "t:sections.product-testimonials.settings.alignment.options__1.label" },
+        { "value": "center", "label": "t:sections.product-testimonials.settings.alignment.options__2.label" },
+        { "value": "right", "label": "t:sections.product-testimonials.settings.alignment.options__3.label" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.product-testimonials.settings.testimonial_settings.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_verified_buyer",
+      "label": "t:sections.product-testimonials.settings.show_verified_buyer.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "t:sections.product-testimonials.settings.show_image.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:sections.product-testimonials.settings.image_position.label",
+      "options": [
+        { "value": "left", "label": "t:sections.product-testimonials.settings.image_position.options__1.label" },
+        { "value": "top", "label": "t:sections.product-testimonials.settings.image_position.options__2.label" },
+        { "value": "right", "label": "t:sections.product-testimonials.settings.image_position.options__3.label" },
+        { "value": "bottom", "label": "t:sections.product-testimonials.settings.image_position.options__4.label" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "t:sections.product-testimonials.settings.image_width.label",
+      "min": 20,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "framed",
+      "label": "t:sections.product-testimonials.settings.framed.label",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "rate_color",
+      "label": "t:sections.product-testimonials.settings.rate_color.label",
+      "default": "#FFA500"
+    },
+    {
+      "type": "range",
+      "id": "items_per_row",
+      "label": "t:sections.product-testimonials.settings.items_per_row.label",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "t:sections.product-testimonials.settings.column_gap.label",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "show_next_back",
+      "label": "t:sections.product-testimonials.settings.show_next_back.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "pagination",
+      "label": "t:sections.product-testimonials.settings.pagination.label",
+      "options": [
+        { "value": "disable", "label": "t:sections.product-testimonials.settings.pagination.options__1.label" },
+        { "value": "dots", "label": "t:sections.product-testimonials.settings.pagination.options__2.label" },
+        { "value": "dots_mobile", "label": "t:sections.product-testimonials.settings.pagination.options__3.label" },
+        { "value": "progress", "label": "t:sections.product-testimonials.settings.pagination.options__4.label" }
+      ],
+      "default": "dots"
+    },
+    {
+      "type": "checkbox",
+      "id": "infinite_slider",
+      "label": "t:sections.product-testimonials.settings.infinite_slider.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_change_slides",
+      "label": "t:sections.product-testimonials.settings.auto_change_slides.label",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "change_slides_every",
+      "label": "t:sections.product-testimonials.settings.change_slides_every.label",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "reveal_next_slide",
+      "label": "t:sections.product-testimonials.settings.reveal_next_slide.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.product-testimonials.settings.mobile_settings.content"
+    },
+    {
+      "type": "range",
+      "id": "mobile_items_per_row",
+      "label": "t:sections.product-testimonials.settings.mobile_items_per_row.label",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "t:sections.product-testimonials.settings.section_padding.content"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.product-testimonials.settings.padding_top.label",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.product-testimonials.settings.padding_bottom.label",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 32
+    },
+    {
+      "type": "checkbox",
+      "id": "remove_default_space",
+      "label": "t:sections.product-testimonials.settings.remove_default_space.label",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "t:sections.product-testimonials.blocks.testimonial.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "author_image",
+          "label": "t:sections.product-testimonials.blocks.testimonial.settings.author_image.label"
+        },
+        {
+          "type": "range",
+          "id": "star_rating",
+          "label": "t:sections.product-testimonials.blocks.testimonial.settings.star_rating.label",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "t:sections.product-testimonials.blocks.testimonial.settings.quote.label",
+          "default": "<p>You can add text content from press comments, reviews, or testimonials here.</p>"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.product-testimonials.blocks.testimonial.settings.product.label"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "t:sections.product-testimonials.blocks.testimonial.settings.author_name.label",
+          "default": "t:sections.product-testimonials.blocks.testimonial.settings.author_name.default"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "t:sections.product-testimonials.presets.name",
+      "category": "Text",
+      "blocks": [{ "type": "testimonial" }, { "type": "testimonial" }, { "type": "testimonial" }]
+    }
+  ]
+}
+{% endschema %}
