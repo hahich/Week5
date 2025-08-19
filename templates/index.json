@@ -154,7 +154,7 @@
         "product_tiAzHA": {
           "type": "product",
           "settings": {
-            "product": "",
+            "product": "apple-iphone-12-pro-max-128gb-unlocked",
             "spacing_bottom": 10
           }
         }
@@ -176,7 +176,7 @@
         "before_image": "shopify://shop_images/review_1-1.webp",
         "after_image": "shopify://shop_images/review_1-2.webp",
         "width": "50",
-        "position": "left",
+        "position": "right",
         "show_text": true,
         "image_ratio": "adapt",
         "custom_ratio": "16:9",
