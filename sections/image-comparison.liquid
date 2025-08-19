@@ -155,8 +155,8 @@
                   <img
                     src="{{ block.settings.product.featured_image | image_url }}"
                     alt="{{ block.settings.product.title }}"
-                    width="100"
-                    height="100"
+                    width="80"
+                    height="auto"
                     loading="lazy"
                   >
                   <div class="ip-product-info">
@@ -166,7 +166,7 @@
                     >
                       {{ block.settings.product.title | default: 'Example prodcut title' }}
                     </a>
-                    <p>{{ block.settings.product.price | money | default: '$100.00' }}</p>
+                    <p class="m-0 semibold">{{ block.settings.product.price | money | default: '$100.00' }}</p>
                   </div>
                 </div>
               </div>

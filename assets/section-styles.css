@@ -22,6 +22,12 @@
   width: 100%;
   max-width: 100%;
 }
+.m-0 {
+  margin: 0;
+}
+.semibold {
+  font-weight: 600;
+}
 
 /* ===== SECTION COMMON STYLES ===== */
 
