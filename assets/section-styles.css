@@ -24,11 +24,13 @@
 
 /* Section padding utilities */
 .section-padding {
-  padding: 0 var(--section-padding-horizontal);
+  padding-left:  var(--section-padding-horizontal);
+  padding-right: var(--section-padding-horizontal);
 }
 
 .section-padding--stretch {
-  padding: 0 var(--section-padding-horizontal-stretch);
+  padding-left: var(--section-padding-horizontal-stretch);
+  padding-right: var(--section-padding-horizontal-stretch);
 }
 
 /* Header size utilities */
