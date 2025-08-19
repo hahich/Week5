@@ -139,7 +139,7 @@
               <div class="ip-content-block">
                 <a
                   href="{{ block.settings.button_url }}"
-                  class="image-comparison-btn__{{ block.settings.button_type }}"
+                  class="image-comparison-btn__{{ block.settings.button_type }} full-unstyled-link"
                   data-spacing="{{ block.settings.spacing_bottom }}"
                   {% if block.settings.button_type == 'primary' %}
                     data-bg-color="{{ block.settings.button_color }}"
@@ -162,7 +162,7 @@
                   <div class="ip-product-info">
                     <a
                       href="{{ block.settings.product.url }}"
-                      class="image-comparison-btn__{{ block.settings.button_type }}"
+                      class="image-comparison-btn__{{ block.settings.button_type }} full-unstyled-link"
                     >
                       {{ block.settings.product.title | default: 'Example prodcut title' }}
                     </a>
